@@ -1,0 +1,63 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  background-color: #baff97;
+  padding: 2%;
+  height: 4vh;
+}
+.boxContainer {
+  /* display: flex; */
+  /* align-items: center;
+  justify-content: center; */
+  width: 100px;
+  margin-left: 1vw;
+  height: 100px;
+  border-radius: 10px;
+  background-color: #ff0000; /* Replace with your desired background color */
+}
+
+
+  .logoLeft {
+    width: 10%;
+    height: 4%;
+    position: absolute;
+    top: 4%;
+    left: 20px;
+  }
+  
+  .logoRight {
+    width: 5.5%;
+    height: 10.5%;
+    position: absolute;
+    top: 1vh;
+    right: 1vh;
+
+  }
+  
+  .title {
+    font-size: 24px;
+    font-family: "Oswald", sans-serif;
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
+    margin: auto; /* Added property */
+  }
+
+  .logoutContainer {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    margin-left: auto; /* Updated property */
+    margin-right: 8%; /* Added property */
+    margin-top: -2%;
+  }
+
+  .logoutIcon {
+    margin-right: 5px;
+  }
+  
+  .logouttext {
+    margin: 0;
+  }

@@ -1,0 +1,176 @@
+.pump-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-family: Comic Sans MS;
+  margin-top: 40vh;
+}
+
+.pump-box {
+  position: relative;
+  width: 18vw;
+  height: 15vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #d1fec5;
+  border-radius: 1vw;
+  margin: 10px;
+  padding: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.pump-box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+
+.circle {
+  position: absolute;
+  top: -0.7vw;
+  right: 0.6vw;
+  width: 5vh;
+  height: 5vh;
+  border-radius: 0.8vh;
+  justify-content: center;
+  align-items: center;
+}
+
+.status{
+padding: 1vh;
+justify-content: center;
+color: #ffffff;
+align-items: center;
+width: 1.5vw;
+height: 3vh;
+}
+
+.green {
+  background-color: rgb(24, 209, 24);
+}
+
+.red {
+  background-color: red;
+}
+
+/* .pump-content {
+  text-align: center;
+} */
+
+.pump-content h3 {
+  font-size: 1.1vw;
+  font-family: Comic Sans MS;
+  color: rgb(0, 0, 0);
+  margin-top: -1vh;
+}
+
+.pump-content h4 {
+  font-size: 0.9vw;
+  font-family: Comic Sans MS;
+  color: rgb(62, 62, 62);
+}
+
+.line {
+  margin-top: -2vh;
+  border: none;
+  border-top: 0.4vh solid #ffffff;
+  /* margin: 10px 0; */
+}
+
+.bottom-content {
+  margin-top: -2vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: Comic Sans MS;
+}
+
+.bottom-content2 {
+  margin-top: -4vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: Comic Sans MS;
+}
+
+.bottom-left {
+  margin: 0;
+  font-family: Comic Sans MS;
+}
+
+.vertical-line {
+  width: 0.1vw;
+  height: 4vh;
+  background-color: #ffffff;
+  margin: 0 8px;
+}
+
+@media (max-width: 768px) {
+  .pump-box {
+    width: 150px;
+    height: 140px;
+  }
+  
+  .kwh-data .label {
+    font-size: 2vw;
+    font-weight: bold;
+    margin-bottom: 0.2vh;
+    font-family: Comic Sans MS;
+  }
+  
+  .kwh-data .value {
+    font-size: 16px;
+    margin: 0;
+    font-family: Comic Sans MS;
+  }
+  
+  .bottom-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    font-family: Comic Sans MS;
+  }
+  
+  .bottom-right .label {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 4px;
+    font-family: Comic Sans MS;
+  }
+  
+  .bottom-right .value {
+    font-size: 16px;
+    margin: 0;
+    font-family: Comic Sans MS;
+  }
+  
+
+  .circle {
+    width: 30px;
+    height: 30px;
+  }
+
+  .vertical-line {
+    height: 10px;
+  }
+}
+
+
+/* Add the following CSS to display item-details side by side */
+.item-details {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.item-details h4 {
+  margin-right: 10px; /* Adjust the spacing between the two elements */
+}

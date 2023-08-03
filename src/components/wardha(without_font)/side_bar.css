@@ -1,0 +1,79 @@
+.sidebar {
+  display: flex;
+  flex-direction: row;
+  height: 90vh;
+  width: 98vw;
+  /* top: 12%; Set the width to 100% to occupy the full screen */
+  margin-left: 1vw;
+  /* background-color: #daf7cd; */
+}
+
+.sidebar ul {
+  list-style-type: none;
+  padding: 1vw;
+  margin: 0;
+}
+
+.sidebar li {
+  margin-bottom: 10vh;
+}
+
+.sidebar li a {
+  display: block;
+  padding: 8px; /* Adjust the padding to move the icons */
+  color: #000;
+  margin-top: 62%;
+  text-decoration: none;
+  background-color: #f0f0f0;
+  border-radius: 5px;
+}
+
+.sidebar li a:hover {
+  background-color: #ccc;
+}
+
+.content {
+  border-radius: 3vh;
+  flex-grow: 1;
+  margin-left: 1vw;
+  background-color: #ffffff;
+  margin-top: 2vh;
+  width: 95vw;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add a box shadow */
+  height: 86vh;
+}
+
+
+.logo {
+    max-width: 10px; /* Adjust the maximum width of the logo */
+    max-height: 10px; /* Adjust the maximum height of the logo */
+  }
+
+  .icon-container {
+    margin-top: 1vh;
+    padding: 8px;
+    /* background-color: #ffffff; */
+    border-radius: 4vh;
+    /* box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); Add a box shadow */
+
+  }
+  
+  .icon-container:hover {
+    background-color: #baff97;
+  }
+  
+  .icons-container {
+    margin-top: 3vh;
+    height: 80vh; /* Adjust the desired height */
+    background-color: rgb(255, 255, 255); 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); 
+    padding: 1vw;
+    border-radius: 2vw;
+  }
+
+  .icon-container.active {
+    background-color: #baff97;
+  }
+  .log{
+    margin-top: 25vh;
+  }

@@ -1,0 +1,135 @@
+.page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 20px;
+  /* background-color: hsl(0, 0%, 94%); */
+  width: 85vw;
+    /* height: 86vh; */
+    border-radius: 3vh;
+}
+
+.square-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 700px;
+  border: 3px solid #ccc;
+  border-radius: 10px;
+  background-color: #d1fec5;
+  padding: 10px;
+}
+
+.event-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 5px;
+  color: white;
+  width: 7vh; /* Square width for the event boxes */
+  height: 4vh; /* Square height for the event boxes */
+  border-radius: 5px; /* Adjust the value for square border radius */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer; /* Set cursor to pointer when hovering over event boxes */
+}
+
+.green {
+  background-color: green;
+}
+
+.red {
+  background-color: red;
+}
+
+.event-text {
+  font-size: 14px;
+  text-align: center;
+}
+
+/* Tooltip styles */
+.tooltip {
+  position: absolute;
+  top: -5px; /* Position the tooltip above the event box */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 10px; /* Increase padding for a larger tooltip */
+  width: 40vh; /* Match the width of the event box */
+  height: 16vh; /* Match the height of the event box */
+  border-radius: 5px; /* Increase border-radius for a more rounded tooltip */
+  font-size: 16px; /* Increase font size for better readability */
+  opacity: 0;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s ease-in-out;
+  z-index: 3; /* Set z-index to appear in front of event box */
+}
+
+.tooltip-text {
+  font-weight: bold; /* Make all text in the tooltip bold */
+}
+
+.event-box:hover .tooltip {
+  opacity: 2; /* Show tooltip on hover */
+}
+
+.reload-button-container {
+  position: relative; /* Change to relative positioning */
+  top: 0; /* Position the reload button at the top of the .square-container */
+  /* left: 50%; Horizontally center the reload button */
+  /* transform: translateX(-50%); */
+  margin-bottom: 10px; /* Add some margin below the reload button */
+}
+
+.reload-button-status {
+  padding: 10px 20px;
+  background-color: #007BFF;
+  color: #FFF;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.reload-button-status:hover {
+  background-color: #0056b3;
+}
+
+.loading-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #007BFF;
+}
+
+/* billerstates.css */
+.loading-bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px; /* Adjust the height to fit your needs */
+}
+
+.loading-spinner {
+  border: 4px solid rgba(0, 0, 0, 0.3);
+  border-top: 4px solid #3498db; /* Adjust the color of the spinner */
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

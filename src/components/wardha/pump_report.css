@@ -1,0 +1,38 @@
+.box-container {
+  border-radius:10px;
+  background-color: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 15vh;
+  border: 4px double #333;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  margin-top: 27vh;
+}
+
+.box-title-solar {
+  font-family: "Comic Sans MS", cursive;
+  font-size: 1.2rem; /* Adjust the font size as desired */
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 50px;
+  background-color: #007bff;
+  color: #fff;
+  font-size: 1rem; /* Adjust the font size as desired */
+  cursor: pointer;
+  align-self: center;
+}
+
+.button:hover {
+  background-color: #0056b3;
+}
+.button.comic-sans {
+  font-family: "Comic Sans MS", cursive;
+  /* Add any other styles for the button here */
+}

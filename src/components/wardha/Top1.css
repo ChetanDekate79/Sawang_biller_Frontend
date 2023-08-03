@@ -1,0 +1,43 @@
+
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: transparent;
+    /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);  */
+    padding: 10px;
+  }
+  
+  /* .box {
+     display: flex;
+    align-items: center;
+    background-color: #baff97;
+    height: 6vh;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);  
+     width: 10vw;
+    border-radius: 2vh;
+  } */
+
+  .logo-right{
+    height: 7vh;
+    width: 7.2vh;
+  }
+
+  .logo-left{
+    height: 4vh;
+    width: 10vw;
+  }
+
+  .title-top{
+    display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Comic Sans MS';
+  }
+
+  .top-title{
+    font-size: 3vh;
+    color: rgb(52, 52, 52);
+    font-family: 'Roboto', sans-serif; /* Apply the Google Font */
+  }
+  

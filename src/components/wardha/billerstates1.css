@@ -1,0 +1,78 @@
+.page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 20px;
+  /* background-color: hsl(0, 0%, 94%); */
+  width: 85vw;
+    /* height: 86vh; */
+    border-radius: 3vh;
+}
+
+.square-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 700px;
+  border: 3px solid #ccc;
+  border-radius: 10px;
+  background-color: #d1fec5;
+  padding: 10px;
+}
+
+.event-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 5px;
+  color: white;
+  width: 6vh; /* Square width for the event boxes */
+  height: 6vh; /* Square height for the event boxes */
+  border-radius: 5px; /* Adjust the value for square border radius */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer; /* Set cursor to pointer when hovering over event boxes */
+}
+
+.green {
+  background-color: green;
+}
+
+.red {
+  background-color: red;
+}
+
+.event-text {
+  font-size: 14px;
+  text-align: center;
+}
+
+/* Tooltip styles */
+.tooltip {
+  position: absolute;
+  top: -5px; /* Position the tooltip above the event box */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 10px; /* Increase padding for a larger tooltip */
+  width: 40vh; /* Match the width of the event box */
+  height: 13vh; /* Match the height of the event box */
+  border-radius: 5px; /* Increase border-radius for a more rounded tooltip */
+  font-size: 16px; /* Increase font size for better readability */
+  opacity: 0;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s ease-in-out;
+  z-index: 3; /* Set z-index to appear in front of event box */
+}
+
+.tooltip-text {
+  font-weight: bold; /* Make all text in the tooltip bold */
+}
+
+.event-box:hover .tooltip {
+  opacity: 2; /* Show tooltip on hover */
+}
