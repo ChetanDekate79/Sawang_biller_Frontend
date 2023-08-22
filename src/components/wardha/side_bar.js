@@ -10,11 +10,14 @@ import Total_Consumption from "./Total_consumption";
 import Home from "./home";
 import Pump from "./pump";
 import Pump_report from "./pump_report";
+import Hostel_graph from'./hostel_graph';
 // import Billerstatus from "./billerstates";
 import EventTable from "./billerstates";
+import DataDisplay from './wardhastatus'
+
 const Sidebar_wardha = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState("home");
+  const [activeTab, setActiveTab] = useState("graph");
 
   const handleOpenLink = () => {
     window.open("https://sawangibillernewstudent.hetadatain.com", "_blank"); // Replace with your desired link
@@ -46,14 +49,16 @@ const Sidebar_wardha = () => {
 
   const renderContent = () => {
     switch (activeTab) {
-      case "home":
-        return <Home />;
+      // case "home":
+      //   return <Home />;
       case "graph":
         return <Bar_graph />;
       case "graph_csv":
         return <LineChart_csv />;
       case "meter_status":
         return <EventTable />;
+        case "meter_status2":
+          return <DataDisplay />;
       case "solar":
         return <BoxWithButton />;
       case "report":
@@ -62,6 +67,8 @@ const Sidebar_wardha = () => {
         return <Pump/>;
       case "pump_report":
         return <Pump_report/>;
+      case "hostel_graph":
+        return <Hostel_graph/>;
       default:
         return null;
     }
@@ -74,14 +81,14 @@ const Sidebar_wardha = () => {
           <img src="log.png" alt="Left Image" className="logo-left"/>
         </div>
     
-        <div
+        {/* <div
           className={`icon-container ${activeTab === "home" ? "active" : ""}`}
           onClick={() => setActiveTab("home")}
           title="Home"
         >
           <FaHome size={24} />
           <span className="icon-name">Home</span>
-        </div>
+        </div> */}
         <div
           className={`icon-container ${activeTab === "graph" ? "active" : ""}`}
           onClick={() => setActiveTab("graph")}
@@ -91,6 +98,14 @@ const Sidebar_wardha = () => {
           <span className="icon-name">Hourly Graph</span>
         </div>
         <div
+          className={`icon-container ${activeTab === "hostel_graph" ? "active" : ""}`}
+          onClick={() => setActiveTab("hostel_graph")}
+          title="Hostel Graph"
+        >
+          <FaChartBar size={24} />
+          <span className="icon-name">Hostel Graph</span>
+        </div>
+        <div
           className={`icon-container ${activeTab === "graph_csv" ? "active" : ""}`}
           onClick={() => setActiveTab("graph_csv")}
           title="Individual Parameter"
@@ -98,9 +113,18 @@ const Sidebar_wardha = () => {
           <FaFileCsv size={24} />
           <span className="icon-name">Parameter Graph</span>
         </div>
-        <div
+        {/* <div
           className={`icon-container ${activeTab === "meter_status" ? "active" : ""}`}
           onClick={() => setActiveTab("meter_status")}
+          title="Hourly Report"
+        >
+          <FaFileAlt size={24} />
+          <span className="icon-name">Meter Status</span>
+        </div> */}
+
+<div
+          className={`icon-container ${activeTab === "meter_status2" ? "active" : ""}`}
+          onClick={() => setActiveTab("meter_status2")}
           title="Hourly Report"
         >
           <FaFileAlt size={24} />

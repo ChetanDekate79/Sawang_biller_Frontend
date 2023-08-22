@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './billerstates.css'; // Import the CSS file
 import { fetchHosts, fetchMeters, fetchData_bar } from "./api";
-import './bar_graph.css';
+import BASE_URL from './api';
 
 const EventTable = () => {
   const [data, setData] = useState([]);
@@ -54,7 +54,7 @@ const EventTable = () => {
           }
 
           setIsLoading(true);
-          const response = await fetch(`https://sawangibiller.hetadatain.com/api/meter-status/${selectedHost}/${currentDate}`);
+          const response = await fetch(`${BASE_URL}/meter-status/${selectedHost}/${currentDate}`);
           // const response = await fetch(`http://127.0.0.1:8000/api/meter-status/${selectedHost}/01-08-2023`);
 
           const data = await response.json();
@@ -88,11 +88,10 @@ const EventTable = () => {
 
   return (
     <div>
-      <div style={{display: "flex", alignItems: "center", marginRight: "10px",backgroundColor: "rgb(156 152 255)",padding: "5px", borderRadius: "10px", width:"21vw",marginLeft: "2vw" }}>
-        <label htmlFor="select_host" style={{ marginRight: '10px', fontWeight: 'bold', fontFamily: 'Comic Sans MS',color:"#ffffff" }}>
-          Select Host: 
+      <div style={{ display: "flex", alignItems: "center", marginRight: "10px", backgroundColor: "rgb(156 152 255)", padding: "5px", borderRadius: "10px", width: "21vw", marginLeft: "2vw" }}>
+        <label htmlFor="select_host" style={{ marginRight: '10px', fontWeight: 'bold', fontFamily: 'Comic Sans MS', color: "#ffffff" }}>
+          Select Host:
         </label>
-
         <select
           id="select_host"
           value={selectedHost}
@@ -105,7 +104,6 @@ const EventTable = () => {
             outline: 'none',
             fontFamily: 'Comic Sans MS',
             fontSize: '14px',
-            // color:"#003c96",
             minWidth: '200px',
           }}
         >
@@ -132,16 +130,24 @@ const EventTable = () => {
             {data.map((event, index) => (
               <div
                 key={index}
-                className={event[6] === 1 ? 'event-box green' : 'event-box red'}
+                className={`event-box ${
+                  event[10] === 1
+                    ? 'green'
+                    : event[10] === 2
+                    ? 'yellow'
+                    : event[10] === 3
+                    ? 'orange'
+                    : 'red'
+                }`}
               >
                 <p className="event-text">{event[2]}</p>
                 <div className="tooltip">
                   <span className="tooltip-text">
-                    <strong>Hostel:</strong> {event[1]}, <strong>Floor No:</strong> {event[3]}
+                    <strong>Hostel:</strong> {event[1]}, <strong>Floor No:</strong> {event[7]}
                     <hr className="horizontal-line" />
                     <span>Device ID: {event[2]}</span><br />
                     <span>Device is live at: {event[0]}</span><br />
-                    <span>Last Data is Before: {event[5]}</span>
+                    <span>Last Data is Before: {event[9]}</span>
                   </span>
                 </div>
               </div>

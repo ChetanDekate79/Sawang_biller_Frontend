@@ -10,37 +10,73 @@
 }
 
 .square-container {
+  position: relative;
+  width: 115vh;
+  height: 30vh;
+  background-color: #d1fec5;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  max-width: 700px;
-  border: 3px solid #ccc;
+  align-content: center;
+  padding: 20px;
+  border: 1px solid #ccc;
   border-radius: 10px;
-  background-color: #d1fec5;
-  padding: 10px;
 }
 
 .event-box {
   position: relative;
+  width: 8vh;
+  height: 5vh;
+  margin: 12px;
   display: flex;
-  align-items: center;
+  flex-direction: column;
   justify-content: center;
-  margin: 5px;
+  align-items: center;
+  font-weight: bold;
+  border-radius: 10px;
   color: white;
-  width: 7vh; /* Square width for the event boxes */
-  height: 4vh; /* Square height for the event boxes */
-  border-radius: 5px; /* Adjust the value for square border radius */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  cursor: pointer; /* Set cursor to pointer when hovering over event boxes */
+  cursor: pointer;
+  border: none;
+  box-shadow: 0px 12px 20px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+ 
+}
+
+.event-box::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  bottom: -10px;
+  left: -10px;
+  background: rgba(255, 255, 255, 0.1);
+  pointer-events: none;
+  z-index: 2;
+  filter: blur(10px);
+}
+
+.event-box:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 12px 30px rgba(0, 0, 0, 0.4);
+  z-index: 3;
 }
 
 .green {
   background-color: green;
 }
 
+.yellow {
+  background-color: yellow;
+}
+
+.orange {
+  background-color: orange;
+}
+
 .red {
   background-color: red;
 }
+
 
 .event-text {
   font-size: 14px;

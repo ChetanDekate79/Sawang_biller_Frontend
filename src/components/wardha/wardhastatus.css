@@ -1,0 +1,149 @@
+/* wardhastatus.css */
+
+/* Styles for the overall background and layout */
+.data-background {
+  /* background-color: #f0f0f0; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  /* min-height: 100vh; */
+}
+
+/* Styles for the dropdown container */
+.dropdown-container {
+  /* display: flex;
+  flex-direction: column;
+  align-items: flex-start; Align the dropdown container to the left */
+  /* margin-bottom: 5vh;
+  margin-right: 55vh; Add margin to the left for spacing */
+  /* left: 2vw; */
+}
+
+.dropdown-wrapper {
+  display: flex;
+  align-items: center;
+  background-color: rgb(156, 152, 255);
+  padding: 5px;
+  border-radius: 10px;
+  /* margin-left: 8vh; */
+}
+
+.dropdown-label {
+  margin-right: 10px;
+  font-weight: bold;
+  font-family: 'Comic Sans MS';
+  color: #ffffff;
+}
+
+.dropdown-select {
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  outline: none;
+  font-family: 'Comic Sans MS';
+  font-size: 14px;
+}
+
+/* Styles for the data container */
+.data-container {
+  position: relative;
+  width: 70vw;
+  font-family:Comic Sans MS ;
+  height: 40vh;
+  background-color: #d1fec5;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: center;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px; /* Adding border radius for a slightly curved corner */
+}
+
+.custom-data-box {
+  position: relative;
+  width: 8vh;
+  height: 6vh;
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+}
+
+
+.red {
+  background-color: red;
+}
+
+.green {
+  background-color: green;
+}
+
+.yellow {
+  background-color: yellow;
+}
+
+.orange {
+  background-color: orange;
+}
+
+.custom-button {
+  display: none;
+  position: absolute;
+  top: 5px;
+  right: 50%;
+  transform: translateX(50%);
+  background-color: rgb(231, 231, 247);
+  color: black;
+  border: none;
+  font-family:Comic Sans MS ;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  width: 55vh;
+  height: 31vh;
+  z-index: 4;
+  font-weight: bold;
+  font-size: 1.2vw;
+  text-align: center;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.custom-button span {
+  font-size: 1.1vw;
+}
+.custom-button strong {
+  font-size: 1.2vw;
+}
+
+
+.custom-button:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+}
+
+.custom-data-box:hover .custom-button {
+  display: block;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 6vh; /* Adjust the height as needed */
+  border-radius: 4px;
+  margin: 12px 0;
+}
+
+.loading-text {
+  font-size: 18px;
+  color: #333; /* Adjust the color */
+}

@@ -13,7 +13,7 @@ import CsvBillerComponent from './components/wardha/csvbiller';
 import MyTableauDashboard from './components/wardha/TableauViz';
 import Login2 from './components/wardha/Login2';
 import Billerstatus from './components/wardha/billerstates'
-
+import Hostel_graph from './components/wardha/hostel_graph'
 function App() { 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -32,15 +32,12 @@ function App() {
         </div>
       ) : (
         <>
-          {/* <Top_Bar/>
-          <Sidebar_wardha/> */}
-          {/* <TopBar/> */}
-          {/* <Billerstatus/> */}
-          <Sidebar_wardha/>
-          {/* <MyTableauDashboard/> */}
-          {/* <Pump/> */}
-          {/* <Login2/> */}
-          {/* <CsvBillerComponent/> */}
+          {/* <Hostel_graph/> */}
+
+          {/* <Sidebar_wardha/> */}
+         
+          <Login2/>
+         
         </>
       )}
     </div>

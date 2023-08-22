@@ -1,14 +1,14 @@
 import axios from 'axios';
 import bcrypt from 'bcryptjs';
 
-const apipath='https://sawangibiller.hetadatain.com/api';
-export default apipath 
+
 
 // const BASE_URL = "http://127.0.0.1:8000/api"; // Replace with your API base URL
 
-// const BASE_URL = "https://wardha.hetadatain.com/api"; // Replace with your API base URL
 
 const BASE_URL = "https://sawangibiller.hetadatain.com/api"; // Replace with your API base URL
+
+export default BASE_URL;
 
 
 export const meterstatus = async (client, date) => {
@@ -72,6 +72,20 @@ export const fetchData_bar = async (hostId, deviceId, date) => {
   try {
     const response = await fetch(
       `${BASE_URL}/hourly_graph/${date}/${hostId}/${deviceId}`
+    );
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw new Error("Failed to fetch data");
+  }
+};
+
+// http://127.0.0.1:8000/api/hostel_consumption?client_id=durga&date=2023-08-15
+
+export const hostel_graph = async (hostId, date) => {
+  try {
+    const response = await fetch(
+      `${BASE_URL}/hostel_consumption?client_id=${hostId}&date=${date}`
     );
     const data = await response.json();
     return data;
