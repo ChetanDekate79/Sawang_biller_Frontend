@@ -69,13 +69,13 @@ body {
 }
 
 .logo-login {
-  width: 20vh;
+  width: 100px;
   height: auto;
   margin-bottom: 20px;
   position: absolute;
   justify-content: center;
   align-items: center;
-  top: -12vh;
+  top: -80px;
   left: 50%;
   transform: translateX(-50%);
 }

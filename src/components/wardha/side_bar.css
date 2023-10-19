@@ -31,13 +31,14 @@
 
 .content {
   border-radius: 3vh;
-  /* background-color: #f3f6f7; */
-  background-color:#eef7eb ;
-
+  background-color: #eef7eb;
   margin-top: 2vh;
-  width: 85vw;
+  margin-right: 2vh;
+  width: calc(100vw - 5vw); /* Adjust the percentage as needed */
+
   height: 96vh;
 }
+
 
 .logo {
   max-width: 10px;
@@ -45,7 +46,7 @@
 }
 
 .icon-container {
-  margin-top: 2vh;
+  margin-top: 0.5vh;
   display: flex;
   align-items: center;
   padding: 8px;
@@ -59,7 +60,7 @@
 
 .icons-container {
   margin-top: 1vh;
-  height: 80vh;
+  max-height: 80vh;
   background-color: transparent;
   padding: 1vw;
   border-radius: 3vw;
@@ -109,7 +110,7 @@
 }
 
 .top-title {
-  font-size: 3vh;
+  font-size: 1.5vw;
   color: rgb(52, 52, 52);
   font-family: 'Roboto', sans-serif;
   margin-left: 24vw;
@@ -124,5 +125,5 @@
   /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); */
   width: 10vw;
   border-radius: 2vh;
-  margin-bottom: 6vh;
+  /* margin-bottom: 3vh; */
 }

@@ -2,9 +2,7 @@ import axios from 'axios';
 import bcrypt from 'bcryptjs';
 
 
-
 // const BASE_URL = "http://127.0.0.1:8000/api"; // Replace with your API base URL
-
 
 const BASE_URL = "https://sawangibiller.hetadatain.com/api"; // Replace with your API base URL
 
@@ -27,6 +25,16 @@ export const meterstatus = async (client, date) => {
 export const fetchHosts = async () => {
   try {
     const response = await fetch(`${BASE_URL}/host`);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw new Error("Failed to fetch hosts");
+  }
+};
+
+export const fetchHostel = async () => {
+  try {
+    const response = await fetch(`${BASE_URL}/hostel`);
     const data = await response.json();
     return data;
   } catch (error) {
@@ -68,6 +76,52 @@ export const pump = async (date) => {
   }
 };
 
+export const fetch_hostel_Report = async (selectedHost, selectedDate) => {
+
+  const formattedDate = selectedDate.split("-").reverse().join("-");
+  const apiUrl = `${BASE_URL}/hostel_consumption_report?client_id=${selectedHost}&date=${selectedDate}`;
+
+  try {
+    const response = await fetch(apiUrl);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    throw error;
+  }
+};
+
+export const fetch_billing_Report = async (selectedHost, selectedYear,selectedMonth,selectedRate) => {
+
+  // const formattedDate = selectedDate.split("-").reverse().join("-");
+  const apiUrl = `${BASE_URL}/billing-report/${selectedHost}/${selectedYear}/${selectedMonth}/${selectedRate}`;
+
+  try {
+    const response = await fetch(apiUrl);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    throw error;
+  }
+};
+
+
+export const fetch_billing_Report_monthly = async (selectedHost, selectedYear,selectedMonth,selectedRate,selectedCA) => {
+
+  // const formattedDate = selectedDate.split("-").reverse().join("-");
+  const apiUrl = `${BASE_URL}/billing-report-monthly/${selectedHost}/${selectedYear}/${selectedMonth}/${selectedRate}/${selectedCA}`;
+
+  try {
+    const response = await fetch(apiUrl);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    throw error;
+  }
+};
+
 export const fetchData_bar = async (hostId, deviceId, date) => {
   try {
     const response = await fetch(
@@ -86,6 +140,18 @@ export const hostel_graph = async (hostId, date) => {
   try {
     const response = await fetch(
       `${BASE_URL}/hostel_consumption?client_id=${hostId}&date=${date}`
+    );
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw new Error("Failed to fetch data");
+  }
+};
+
+export const Generate_Hourly_data_all = async (hostId, date) => {
+  try {
+    const response = await fetch(
+      `${BASE_URL}/generate_hourly_data_all/${hostId}/${date}`
     );
     const data = await response.json();
     return data;

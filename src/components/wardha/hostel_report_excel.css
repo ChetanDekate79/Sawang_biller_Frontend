@@ -1,0 +1,146 @@
+/* hostel_report_excel.css */
+.center-screen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+  }
+  
+  .hostel_button_main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgb(255, 255, 255);
+    width: 25vw;
+    height: 15vh; /* Set the desired height */
+    padding: 20px;
+    border-radius: 2vh;
+  }
+
+  /* Responsive adjustments */
+@media screen and (max-width: 768px) {
+    .hostel_button_main {
+      width: 80vw; /* Adjust for smaller screens */
+    }
+    .hostel_button{
+        width: 70vw;
+    }
+  }
+  
+  .hostel_button_main h3 {
+    margin-top: 0vh; /* Adjust this value to decrease/increase space */
+    font-family: Comic Sans MS;
+  }
+
+.hostel_button {
+    --width: 10vw;
+    --height: 6vh;
+    --tooltip-height: 35px;
+    --tooltip-width: 90px;
+    --gap-between-tooltip-to-hostel_button: 18px;
+    --hostel_button-color: #76d3fc;
+    --tooltip-color: #fff;
+    width: var(--width);
+    height: var(--height);
+    background: var(--hostel_button-color);
+    position: relative;
+    text-align: center;
+    border-radius: 0.45em;
+    font-family: "Arial";
+    transition: background 0.3s;
+  }
+  
+  .hostel_button::before {
+    position: absolute;
+    content: attr(data-tooltip);
+    width: var(--tooltip-width);
+    height: var(--tooltip-height);
+    background-color: var(--tooltip-color);
+    font-size: 0.9rem;
+    color: #111;
+    border-radius: .25em;
+    line-height: var(--tooltip-height);
+    bottom: calc(var(--height) + var(--gap-between-tooltip-to-hostel_button) + 10px);
+    left: calc(50% - var(--tooltip-width) / 2);
+  }
+  
+  .hostel_button::after {
+    position: absolute;
+    content: '';
+    width: 0;
+    height: 0;
+    border: 10px solid transparent;
+    border-top-color: var(--tooltip-color);
+    left: calc(50% - 10px);
+    bottom: calc(100% + var(--gap-between-tooltip-to-hostel_button) - 10px);
+  }
+  
+  .hostel_button::after,.hostel_button::before {
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.5s;
+  }
+  
+  .text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #111;
+  }
+  
+  .hostel_button-wrapper,.text,.icon {
+    overflow: hidden;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    color: #fff;
+  }
+  
+  .text {
+    top: 0;
+    color: #111;
+  }
+  
+  .text,.icon {
+    transition: top 0.5s;
+  }
+  
+  .icon {
+    color: #fff;
+    top: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .icon svg {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .hostel_button:hover {
+    background: #6c18ff;
+  }
+  
+  .hostel_button:hover .text {
+    top: -100%;
+  }
+  
+  .hostel_button:hover .icon {
+    top: 0;
+  }
+  
+  .hostel_button:hover:before,.hostel_button:hover:after {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  .hostel_button:hover:after {
+    bottom: calc(var(--height) + var(--gap-between-tooltip-to-hostel_button) - 20px);
+  }
+  
+  .hostel_button:hover:before {
+    bottom: calc(var(--height) + var(--gap-between-tooltip-to-hostel_button));
+  }
+  

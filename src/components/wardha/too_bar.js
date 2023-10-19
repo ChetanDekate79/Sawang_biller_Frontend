@@ -1,6 +1,6 @@
 import React from 'react';
 import './too_bar.css';
-import Login from './Login';
+import Login from './Login_old';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import { fetchData, logout } from './api';
@@ -16,7 +16,7 @@ function Top_Bar() {
   return (<div><div>
     <img src="log.png" alt="Logo Left" className="logoLeft" />
     </div>
-    <div className="container">
+    <div className="container-top">
       <h1 className="title">Energy Monitoring System for Sawangi Campus</h1>
       <div className="logoutContainer" onClick={handleLogout}>
         <FontAwesomeIcon icon={faSignOutAlt} className="logoutIcon" />

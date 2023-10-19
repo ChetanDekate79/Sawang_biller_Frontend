@@ -250,7 +250,7 @@ const LineChart_csv = () => {
 
   return (
     <div>
-      <div style={{ display: "flex", marginBottom: "10px", marginTop: "2vh" }}>
+      <div style={{ display: "flex", marginBottom: "10px", marginTop: "2vh", marginLeft: "2vh" }}>
         <div style={{ alignItems: "center", marginRight: "2px", backgroundColor: "#e4da85", padding: "2px", borderRadius: "10px" }}>
           <label htmlFor="columnSelectY" style={{ fontWeight: "bold", display: "block", fontFamily: "Comic Sans MS", color: "#ffffff" }}>
             Parameters:
@@ -376,14 +376,25 @@ const LineChart_csv = () => {
         </div>
       </div>
 
-      <div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center", // Center the chart horizontally
+          marginTop: "2vh",
+          marginLeft: "2vw",
+          marginRight: "2vw",
+        }}
+      >
         {isLoadingData ? (
           <div className="loading">Loading...</div>
         ) : (
           data.length === 0 ? (
           <div className="loading">No data available</div>
         ) : (
-          <div id="chartdiv_g" style={{ marginLeft: "1vw", width: '83vw', height: "72vh", backgroundColor: "#ffffff", borderRadius: "10px" }} />
+          <div id="chartdiv_g" style={{ width: "100%", // Set the chart width to 100% of its container
+          height: "75vh",
+          backgroundColor: "#ffffff",
+          borderRadius: "10px"}} />
         ))}
       </div>
     </div>

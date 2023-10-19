@@ -85,18 +85,6 @@ const Bar_graph = () => {
         });
     }, [selectedHost,selectedDevice, selectedDate]);
 
-  // const handleClick3 = () => {
-  //   const previousURL = window.location.href; // Get the current URL
-
-  //   window.location.href = 'https://newrcplasto.hetadatain.com/api/jnmc_graph?host=AV11&device_id=49&date=2023-05-22'; // Open the new link
-
-  //   setTimeout(() => {
-  //     window.location.href = 'http://localhost:3000/'; // Go back to the previous link
-  //   }, 1000); // Adjust the delay time as needed
-  // };
-
-
-
 
   useEffect(() => {
     // Convert date strings to Date objects and update the dt_time field to hh:mm format
@@ -349,11 +337,23 @@ const Bar_graph = () => {
 </div>
 
       </div>
-      <div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center", // Center the chart horizontally
+          marginTop: "2vh",
+          marginLeft: "2vw",
+          marginRight: "2vw",
+         
+        }}
+      >
       {isLoadingData ? ( 
         <div className="loading">Loading...</div>
       ) : (
-        <div id="chartdiv" style={{  marginLeft: "1vw",width: '83vw', height: "75vh", backgroundColor: "#ffffff", borderRadius: "10px"}} />
+        <div id="chartdiv" style={{ width: "100%", // Set the chart width to 100% of its container
+        height: "75vh",
+        backgroundColor: "#ffffff",
+        borderRadius: "10px"}} />
       )}
     </div>
     </div>

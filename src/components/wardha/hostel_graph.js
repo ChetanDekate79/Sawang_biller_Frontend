@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
-import { fetchHosts, fetchMeters, fetchData_bar,hostel_graph } from "./api";
+import { fetchHostel, fetchMeters, fetchData_bar,hostel_graph } from "./api";
 import './hostel_graph.css'
 
 am4core.useTheme(am4themes_animated);
@@ -31,7 +31,7 @@ const Hostel_graph = () => {
     const fetchInitialData = async () => {
       try {
         setIsLoadingHosts(true);
-        const hostsData = await fetchHosts();
+        const hostsData = await fetchHostel();
         setHosts(hostsData);
         setIsLoadingHosts(false);
       } catch (error) {
@@ -68,6 +68,11 @@ const Hostel_graph = () => {
     setSelectedDevice(device);
   };
 
+  // Sort function to sort data based on dt_time
+const sortByTime = (data) => {
+  return data.slice().sort((a, b) => a.dt_time.localeCompare(b.dt_time));
+}
+
 
     // Fetch data from Node.js API and set it to chartData state variable
     useEffect(() => {
@@ -77,16 +82,18 @@ const Hostel_graph = () => {
         .then((data) => {
           const chartDataWithTime = data.map((dataPoint) => ({
             dt_time: new Date(dataPoint.dt_time).toLocaleTimeString([], {
-              // hour: "2-digit",
-              // minute: "2-digit",
-              // hour12: false,
+              hour: "2-digit",
+              hour12: false,
             }),
             sum_ryb: dataPoint.sum_ryb,
             sum_total: dataPoint.sum_total,
             common_area: dataPoint.common_area,
             hour: dataPoint.HOUR,
           }));
-          setChartData(chartDataWithTime);
+    
+          const sortedChartData = sortByTime(chartDataWithTime); // Sort the data by dt_time
+    
+          setChartData(sortedChartData);
           setIsLoadingData(false);
         })
         .catch((error) => {
@@ -94,6 +101,7 @@ const Hostel_graph = () => {
           setIsLoadingData(false);
         });
     }, [selectedHost, selectedDate]);
+    
     
 
     useEffect(() => {
@@ -105,7 +113,7 @@ const Hostel_graph = () => {
     // Create X axis
     const categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
     // Configure category axis
-    categoryAxis.dataFields.category = "hour";
+    categoryAxis.dataFields.category = "dt_time";
     categoryAxis.renderer.minGridDistance = 30;
     categoryAxis.renderer.labels.template.horizontalCenter = "right";
     categoryAxis.renderer.labels.template.verticalCenter = "middle";
@@ -124,38 +132,38 @@ const Hostel_graph = () => {
     // Create series for "sum_ryb" column
     const seriesRyb = chart.series.push(new am4charts.ColumnSeries());
     seriesRyb.dataFields.valueY = "sum_ryb";
-    seriesRyb.dataFields.categoryX = "hour";
+    seriesRyb.dataFields.categoryX = "dt_time";
     // seriesRyb.strokeWidth = 2;
     seriesRyb.minBulletDistance = 10;
     seriesRyb.tooltipText = "Room Kwh: {sum_ryb}";
     seriesRyb.name = "Room Kwh";
-    seriesRyb.columns.template.fill = am4core.color("#438be7"); // Blue
-    seriesRyb.columns.template.stroke = am4core.color("#438be7");
+    seriesRyb.columns.template.fill = am4core.color("#98FB98"); // Blue
+    seriesRyb.columns.template.stroke = am4core.color("#98FB98");
     seriesRyb.stacked = true;
 
     // Create series for "common_area" column
     const seriesCommon = chart.series.push(new am4charts.ColumnSeries());
     seriesCommon.dataFields.valueY = "common_area";
-    seriesCommon.dataFields.categoryX = "hour";
+    seriesCommon.dataFields.categoryX = "dt_time";
     seriesCommon.strokeWidth = 2;
     seriesCommon.minBulletDistance = 10;
     seriesCommon.tooltipText = "Common Area: {common_area}";
     seriesCommon.name = "Common Area";
-    seriesCommon.columns.template.fill = am4core.color("#edff8d"); // Red
-    seriesCommon.columns.template.stroke = am4core.color("#edff8d");
+    seriesCommon.columns.template.fill = am4core.color("#F4A460"); // Red
+    seriesCommon.columns.template.stroke = am4core.color("#F4A460");
     seriesCommon.stacked = true;
 
 
  // Create series for "sum_total" column
     const seriesTotal = chart.series.push(new am4charts.ColumnSeries());
     seriesTotal.dataFields.valueY = "sum_total";
-    seriesTotal.dataFields.categoryX = "hour";
+    seriesTotal.dataFields.categoryX = "dt_time";
     seriesTotal.strokeWidth = 2;
     seriesTotal.minBulletDistance = 10;
     seriesTotal.tooltipText = "Net Kwh: {sum_total}";
-    seriesTotal.name = "Net Kwh";
-    seriesTotal.columns.template.fill = am4core.color("#293e59"); // Green
-    seriesTotal.columns.template.stroke = am4core.color("#293e59");
+    seriesTotal.name = "Hostel Kwh";
+    seriesTotal.columns.template.fill = am4core.color("#2E4053"); // Green
+    seriesTotal.columns.template.stroke = am4core.color("#2E4053");
     seriesTotal.columns.template.fillOpacity = 1; // Adjust the opacity value as needed
     seriesTotal.columns.template.strokeOpacity = 1; // Adjust the opacity value as needed
     seriesTotal.stacked = false;
@@ -246,7 +254,7 @@ const Hostel_graph = () => {
         ) : (
           hosts.map(host => (
             <option key={host.client_id} value={host.client_id}>
-              {host.client_name}
+              {host.hostel_id}
             </option>
           ))
         )}
@@ -278,11 +286,23 @@ const Hostel_graph = () => {
 </div>
 
       </div>
-      <div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center", // Center the chart horizontally
+          marginTop: "2vh",
+          marginLeft: "2vw",
+          marginRight: "2vw",
+        }}
+      >
       {isLoadingData ? ( 
         <div className="loading">Loading...</div>
       ) : (
-        <div id="chartdiv" style={{  marginLeft: "1vw",width: '83vw', height: "75vh", backgroundColor: "#ffffff", borderRadius: "10px"}} />
+        <div id="chartdiv" style={{ 
+        width: "100%", // Set the chart width to 100% of its container
+        height: "75vh",
+        backgroundColor: "#ffffff",
+        borderRadius: "10px"}} />
       )}
     </div>
     </div>
