@@ -8,12 +8,12 @@ import jsPDF from "jspdf";
 import { saveAs } from "file-saver"; // For downloading the file
 import { utils, writeFile } from "xlsx"; // For Excel file generation
 import "./billing_report.css";
-import { fetchHostel, fetch_billing_Report_monthly,fetchRooms } from "./api";
+import { fetchHostel, monthly_Consumption } from "./api";
 import BASE_URL from "./api";
 
 am4core.useTheme(am4themes_animated);
 
-const Billing_report_monthly = () => {
+const Monthly_Consumption_Report = () => {
   const [chartData, setChartData] = useState([]);
   const [selectedHost, setSelectedHost] = useState("");
   const [selectedDevice, setSelectedDevice] = useState("");
@@ -21,13 +21,12 @@ const Billing_report_monthly = () => {
   const [reportUrl, setReportUrl] = useState("");
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().slice(0, 10));
   const formattedDate = format(new Date(selectedDate), 'dd-MM-yyyy');
-  const [selectedDate2, setSelectedDate2] = useState(new Date().toISOString().slice(0, 10));
+  const [selectedYear, selectedMonth] = selectedDate.split('-');
+
 
   const iframeRef = useRef(null);
   const [hosts, setHosts] = useState([]);
   const [HostName, setHostName] = useState("");
-  const [selectedYear, setSelectedYear] = useState(0); // Initialize with an appropriate default value
-  const [selectedMonth, setSelectedMonth] = useState(0); // Initialize with an appropriate default value
   const [selectedRate, setSelectedRate] = useState(""); // Initialize with an appropriate default value
   const [selectedCA, setSelectedCA] = useState(""); // Initialize with an appropriate default value
   const [initialIframeHeight, setInitialIframeHeight] = useState(null);
@@ -35,10 +34,6 @@ const Billing_report_monthly = () => {
   const [meters, setMeters] = useState([]);
   const [isLoadingHosts, setIsLoadingHosts] = useState(false);
   const [isLoadingMeters, setIsLoadingMeters] = useState(false);
-  const [SelectedHostName2, setSelectedHostName] = useState("");
-  const [SelectedDevice2Name, setSelectedDevice2Name] = useState("");
-
-
   const [isLoading, setIsLoading] = useState(true); // New state variable for loading status
 
   useEffect(() => {
@@ -56,39 +51,6 @@ const Billing_report_monthly = () => {
 
     fetchInitialData();
   }, []);
-
-  useEffect(() => {
-    const fetchMetersByHost = async () => {
-      try {
-        setIsLoadingMeters(true);
-        const metersData = await fetchRooms(selectedHost);
-        setMeters(metersData);
-        setIsLoadingMeters(false);
-      } catch (error) {
-        console.error("Error fetching meters:", error);
-        setIsLoadingMeters(false);
-      }
-    };
-
-    if (selectedHost) {
-      fetchMetersByHost();
-    }
-  }, [selectedHost]);
-
-  const handleHostChange = (event) => {
-    const selectedOption = event.target.value;
-    const selectedOptionName = event.target.options[event.target.selectedIndex].text;
-
-    setSelectedHost(selectedOption);
-    setSelectedMeter('');
-    setSelectedHostName(selectedOptionName);
-
-    if (selectedOption) {
-      fetchRooms(selectedOption);
-    } else {
-      setMeters([]);
-    }
-  };
 
   // const downloadPdf = async () => {
   //   try {
@@ -152,14 +114,32 @@ const Billing_report_monthly = () => {
 
   //pdf.save(`${selectedHost}_${selectedYear}_${selectedMonth}_Bill_summary.pdf`);
   
+  
+  
+  const handleHostChange = (event) => {
+    const selectedOption = event.target.value;
+    const selectedOptionName = event.target.options[event.target.selectedIndex].text;
 
- 
+    setSelectedHost(selectedOption);
+    setSelectedMeter('');
+    setHostName(selectedOptionName);
+
+
+    // if (selectedOption) {
+    //   fetch_pump_Meters(selectedOption);
+    // } else {
+    //   setMeters([]);
+    // }
+  };
+
   const onDeviceChange = (event) => {
     const deviceName = event.target.options[event.target.selectedIndex].text;
-    const device = event.target.value;
-    setSelectedDevice2Name(deviceName);
-    setSelectedDevice(device);
+
+    setSelectedDevice(event.target.value);
+    
+    setSelectedDeviceName(deviceName);
   };
+  console.log("SelectedDeviceName2",SelectedDeviceName2)
 
 
   useEffect(() => {
@@ -168,14 +148,9 @@ const Billing_report_monthly = () => {
       setIsLoading(true); // Set loading status to true
 
       try {
-        const data = await fetch_billing_Report_monthly(
+        const data = await monthly_Consumption(
           selectedHost,
-          selectedDevice,
           selectedDate,
-          selectedDate2,
-          selectedRate,
-          selectedCA,
-          
         );
         console.log(data);
         setChartData(data);
@@ -186,7 +161,7 @@ const Billing_report_monthly = () => {
       }
     };
     fetchDataFromApi();
-  }, [ selectedHost,selectedDevice,selectedDate,selectedRate,selectedCA,selectedDate2]);
+  }, [ selectedHost,selectedDate]);
 
   const onGenerateReport = () => {
     const url = generateReportUrl(selectedHost,  formattedDate,selectedDate);
@@ -205,19 +180,14 @@ const Billing_report_monthly = () => {
     setSelectedDate(event.target.value);
   };
 
-  const handleDateChange2 = (event) => {
-    setSelectedDate2(event.target.value);
-  };
-  
- 
  
   const generateReportUrl = () => {
-    if (!selectedHost || !selectedDate2 || !selectedDate || !selectedRate || !selectedCA || !selectedDate || !selectedDevice) {
+    if (!selectedHost || !selectedDate) {
       // Return null if any of the required parameters is missing
       return null;
     }
   
-    const url = `${BASE_URL}/billing-report-monthly/${selectedHost}/${selectedDevice}/${selectedDate}/${selectedDate2}/${selectedRate}/${selectedCA}`;
+    const url = `${BASE_URL}/monthly_consumption_report/${selectedHost}/${selectedMonth}/${selectedYear}`;
     return url;
   };
   
@@ -229,7 +199,7 @@ const Billing_report_monthly = () => {
     if (url) {
       setReportUrl(url);
     }
-  }, [selectedRate,selectedDevice, selectedHost, selectedDate, selectedDate2,selectedCA,selectedDate]);
+  }, [selectedHost, selectedDate, ]);
   
   
 
@@ -237,7 +207,7 @@ const Billing_report_monthly = () => {
     <div>
       <div style={{ display: "flex",  marginBottom: "10px",marginTop: "2vh",marginLeft: "2vw"}}>
      
-      <div style={{ width:'15vw', alignItems: "center", marginRight: "10px",backgroundColor: "rgb(156 152 255)",padding: "5px", borderRadius: "10px"  }}>
+      <div style={{display: "flex", alignItems: "center", marginRight: "10px",backgroundColor: "rgb(156 152 255)",padding: "5px", borderRadius: "10px"  }}>
       <label htmlFor="select_host" style={{ marginRight: '10px', fontWeight: 'bold', fontFamily: 'Comic Sans MS',color:"#ffffff" }}>
   Select Host: 
 </label>
@@ -264,46 +234,13 @@ const Billing_report_monthly = () => {
         
   </select>
       </div>
-      <div style={{ alignItems: "center", marginRight: "2px", backgroundColor: "rgb(97 194 194)", padding: "2px", borderRadius: "10px" }}>
-          <label htmlFor="select_device" style={{ fontWeight: "bold", display: "block" }}>
-            <span style={{ fontFamily: "Comic Sans MS", color: "#ffffff" }}>Room:</span>
-          </label>
-
-          <select
-            id="select_device"
-            value={selectedDevice}
-            onChange={onDeviceChange}
-            style={{
-              padding: "5px",
-              borderRadius: "5px",
-              border: "1px solid #ccc",
-              boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-              outline: "none",
-              fontFamily: "Comic Sans MS",
-              marginRight: "15px",
-              fontSize: "13px",
-              minWidth: "200px", // Adjust the width as needed
-            }}
-          >
-            <option value="">Select Room</option>
-            {isLoadingMeters ? (
-              <option value="" disabled>Loading Rooms...</option>
-            ) : (
-              meters.map(meter => (
-                <option key={meter.room_no} value={meter.room_no}>
-                  {meter.room_no}
-                </option>
-              ))
-            )}
-          </select>
-        </div>
-      <div style={{ width:'10vw', alignItems: "center", marginRight: "10px",backgroundColor: "rgb(200 96 224 / 79%)",padding: "5px", borderRadius: "10px"}}>
+      <div style={{  display: "flex", alignItems: "center", marginRight: "10px",backgroundColor: "rgb(200 96 224 / 79%)",padding: "5px", borderRadius: "10px"}}>
 <label htmlFor="datePicker" style={{ marginRight: "10px", fontWeight: "bold",color:"#003c96" }}>
   <span style={{ fontFamily: "Comic Sans MS",color:"#ffffff" }}>Start Date:</span> 
 </label>
 
   <input
-    type="date"
+    type="month"
     id="datePicker"
     value={selectedDate}
     onChange={handleDateChange}
@@ -318,67 +255,6 @@ const Billing_report_monthly = () => {
     }}
   />
 </div>
-<div style={{ width:'10vw', alignItems: "center", marginRight: "10px",backgroundColor: "rgb(200 96 224 / 79%)",padding: "5px", borderRadius: "10px"}}>
-<label htmlFor="datePicker" style={{ marginRight: "10px", fontWeight: "bold",color:"#003c96" }}>
-  <span style={{ fontFamily: "Comic Sans MS",color:"#ffffff" }}>End Date:</span> 
-</label>
-
-  <input
-    type="date"
-    id="datePicker"
-    value={selectedDate2}
-    onChange={handleDateChange2}
-    style={{
-      padding: "5px",
-      borderRadius: "5px",
-      border: "1px solid #ccc",
-      boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-      outline: "none",
-      fontFamily: "Comic Sans MS",
-      fontSize: "14px",
-    }}
-  />
-</div>
-      <div style={{ width:'10vw', alignItems: "center",width:"10vw", marginRight: "10px",backgroundColor: "rgb(200 96 224 / 79%)",padding: "5px", borderRadius: "10px" }}>
-      <label htmlFor="datePicker" style={{ marginRight: "10px", fontWeight: "bold" }}>
-  <span style={{ fontFamily: "Comic Sans MS",color:"#ffffff" }}>Rate:</span> 
-</label>
-        <input
-          type="number"
-          value={selectedRate}
-          onChange={(e) => setSelectedRate(Number(e.target.value))}
-          style={{
-            padding: "5px",
-            borderRadius: "5px",
-            border: "1px solid #ccc",
-            boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-            outline: "none",
-            fontFamily: "Comic Sans MS",
-            fontSize: "14px",
-            width:"100%",
-          }}
-        />
-      </div>
-      <div style={{ width:'10vw', alignItems: "center",width:"10vw", marginRight: "10px",backgroundColor: "rgb(200 96 224 / 79%)",padding: "5px", borderRadius: "10px" }}>
-      <label htmlFor="datePicker" style={{ marginRight: "10px", fontWeight: "bold" }}>
-  <span style={{ fontFamily: "Comic Sans MS",color:"#ffffff" }}>Common Area:</span> 
-</label>
-        <input
-          type="number"
-          value={selectedCA}
-          onChange={(e) => setSelectedCA(Number(e.target.value))}
-          style={{
-            padding: "5px",
-            borderRadius: "5px",
-            border: "1px solid #ccc",
-            boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-            outline: "none",
-            fontFamily: "Comic Sans MS",
-            fontSize: "14px",
-            width: "100%",
-          }}
-        />
-      </div>
 
       </div>
       <div
@@ -411,4 +287,4 @@ const Billing_report_monthly = () => {
   );
 };
 
-export default Billing_report_monthly;
+export default Monthly_Consumption_Report;

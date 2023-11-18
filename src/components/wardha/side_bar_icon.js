@@ -22,6 +22,7 @@ import Billing_report from "./billing_report";
 import Billing_report_monthly from "./billing_report_monthly";
 import Bill from "./bill";
 import Admin from "./admin";
+import Monthly_Consumption_Report from "./monthly_consumption_report";
 const Sidebar_wardha_icon = (props) => {
   const { userType } = props;
   const [isLoading, setIsLoading] = useState(true);
@@ -92,6 +93,8 @@ const Sidebar_wardha_icon = (props) => {
         return <Bill/>;
       case 'admin':
         return <Admin/>;
+        case 'Monthly_consumption_report':
+        return <Monthly_Consumption_Report/>;
       default:
         return null;
     }
@@ -124,6 +127,12 @@ const Sidebar_wardha_icon = (props) => {
     tabTitle: " Daily Hostel Report",
     icon: <img src={`${process.env.PUBLIC_URL}/icons/download.png`} alt="Hostel Icon" width={24} /> ,
     iconName: " Daily Hostel Report",
+  },  
+  {
+    tabName: "Monthly_consumption_report",
+    tabTitle: " Monthly Report",
+    icon: <img src={`${process.env.PUBLIC_URL}/icons/report.png`} alt="Hostel Icon" width={24} /> ,
+    iconName: " Monthly Report",
   },  
    {
      tabName: "graph_csv",

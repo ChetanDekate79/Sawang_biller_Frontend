@@ -20,6 +20,7 @@ import Hostel_report from './components/wardha/hostel_report';
 import Hostel_report_excel from './components/wardha/hostel_report_excel';
 import Bill from './components/wardha/bill';
 import Admin from './components/wardha/admin';
+import Monthly_Consumption_Report from './components/wardha/monthly_consumption_report';
 
 function App() { 
   const [isLoading, setIsLoading] = useState(true);
@@ -39,8 +40,10 @@ function App() {
         </div>
       ) : (
         <>
-          {/* <Sidebar_wardha_icon/> */}
-          <Login2/>
+          <Sidebar_wardha_icon/>
+
+
+          {/* <Login2/> */}
         </>
       )}
     </div>

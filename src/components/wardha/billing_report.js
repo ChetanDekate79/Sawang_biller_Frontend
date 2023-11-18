@@ -8,7 +8,7 @@ import jsPDF from "jspdf";
 import { saveAs } from "file-saver"; // For downloading the file
 import { utils, writeFile } from "xlsx"; // For Excel file generation
 import "./billing_report.css";
-import { fetchHostel, fetch_billing_Report } from "./api";
+import { fetchHostel, fetch_billing_Report,fetchRooms } from "./api";
 import BASE_URL from "./api";
 
 am4core.useTheme(am4themes_animated);
@@ -35,6 +35,10 @@ const Billing_report = () => {
   const [isLoadingMeters, setIsLoadingMeters] = useState(false);
   const [isLoading, setIsLoading] = useState(true); // New state variable for loading status
   const [initialIframeHeight, setInitialIframeHeight] = useState(null);
+  const [SelectedHostName2, setSelectedHostName] = useState("");
+  const [SelectedDevice2Name, setSelectedDevice2Name] = useState("");
+
+
 
 
   useEffect(() => {
@@ -53,26 +57,24 @@ const Billing_report = () => {
     fetchInitialData();
   }, []);
 
-  // const downloadPdf = async () => {
-  //   try {
-  //     const iframe = iframeRef.current;
-  
-  //     if (iframe) {
-  //       const contentDocument = iframe.contentDocument || iframe.contentWindow.document;
-  //       const canvas = await html2canvas(contentDocument.body);
-  
-  //       const imgData = canvas.toDataURL('image/png');
-  //       const pdf = new jsPDF('p', 'mm', 'a4');
-  //       const pdfWidth = pdf.internal.pageSize.getWidth();
-  //       const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-  
-  //       pdf.addImage(imgData, 'PNG', 10, 10, pdfWidth - 20, pdfHeight - 20);
-  //       pdf.save('Billing_Report.pdf');
-  //     }
-  //   } catch (error) {
-  //     console.error('Error generating PDF:', error);
-  //   }
-  // };
+  useEffect(() => {
+    const fetchMetersByHost = async () => {
+      try {
+        setIsLoadingMeters(true);
+        const metersData = await fetchRooms(selectedHost);
+        setMeters(metersData);
+        setIsLoadingMeters(false);
+      } catch (error) {
+        console.error("Error fetching meters:", error);
+        setIsLoadingMeters(false);
+      }
+    };
+
+    if (selectedHost) {
+      fetchMetersByHost();
+    }
+  }, [selectedHost]);
+
 
 
   const downloadPdf = async () => {
@@ -119,24 +121,21 @@ const Billing_report = () => {
 
     setSelectedHost(selectedOption);
     setSelectedMeter('');
-    setHostName(selectedOptionName);
+    setSelectedHostName(selectedOptionName);
 
-
-    // if (selectedOption) {
-    //   fetch_pump_Meters(selectedOption);
-    // } else {
-    //   setMeters([]);
-    // }
+    if (selectedOption) {
+      fetchRooms(selectedOption);
+    } else {
+      setMeters([]);
+    }
   };
 
   const onDeviceChange = (event) => {
     const deviceName = event.target.options[event.target.selectedIndex].text;
-
-    setSelectedDevice(event.target.value);
-    
-    setSelectedDeviceName(deviceName);
+    const device = event.target.value;
+    setSelectedDevice2Name(deviceName);
+    setSelectedDevice(device);
   };
-  console.log("SelectedDeviceName2",SelectedDeviceName2)
 
 
   useEffect(() => {
@@ -191,12 +190,12 @@ const Billing_report = () => {
  
  
   const generateReportUrl = () => {
-    if (!selectedHost ||  !selectedDate2 || !selectedRate || !selectedDate) {
+    if (!selectedHost ||  !selectedDate2 || !selectedRate || !selectedDate || !selectedDevice) {
       // Return null if any of the required parameters is missing
       return null;
     }
   
-    const url = `${BASE_URL}/billing-report/${selectedHost}/${selectedDate}/${selectedDate2}/${selectedRate}`;
+    const url = `${BASE_URL}/billing-report/${selectedHost}/${selectedDevice}/${selectedDate}/${selectedDate2}/${selectedRate}`;
     return url;
   };
   
@@ -208,7 +207,7 @@ const Billing_report = () => {
     if (url) {
       setReportUrl(url);
     }
-  }, [selectedRate, selectedHost, selectedDate,selectedDate2]);
+  }, [selectedRate, selectedHost, selectedDate,selectedDate2,selectedDevice]);
   
   
 
@@ -216,9 +215,9 @@ const Billing_report = () => {
     <div>
       <div style={{ display: "flex",  marginBottom: "10px",marginTop: "2vh",marginLeft: "2vw"}}>
      
-      <div style={{display: "flex", alignItems: "center", marginRight: "10px",backgroundColor: "rgb(156 152 255)",padding: "5px", borderRadius: "10px"  }}>
+      <div style={{width:"15vw",alignItems: "center", marginRight: "10px",backgroundColor: "rgb(156 152 255)",padding: "5px", borderRadius: "10px"  }}>
       <label htmlFor="select_host" style={{ marginRight: '10px', fontWeight: 'bold', fontFamily: 'Comic Sans MS',color:"#ffffff" }}>
-  Select Host: 
+  Select Hostel: 
 </label>
       <select id="select_host" value={selectedHost} onChange={handleHostChange}style={{
       padding: "5px",
@@ -230,7 +229,7 @@ const Billing_report = () => {
       fontSize: "14px",
       minWidth: "200px", // Adjust the width as needed
     }}>
-      <option value="">Select Host</option>
+      <option value="">Select Hostel</option>
         {isLoadingHosts ? (
           <option value="" disabled>Loading hosts...</option>
         ) : (
@@ -243,8 +242,41 @@ const Billing_report = () => {
         
   </select>
       </div>
+      <div style={{ alignItems: "center", marginRight: "2px", backgroundColor: "rgb(97 194 194)", padding: "2px", borderRadius: "10px" }}>
+          <label htmlFor="select_device" style={{ fontWeight: "bold", display: "block" }}>
+            <span style={{ fontFamily: "Comic Sans MS", color: "#ffffff" }}>Room:</span>
+          </label>
+
+          <select
+            id="select_device"
+            value={selectedDevice}
+            onChange={onDeviceChange}
+            style={{
+              padding: "5px",
+              borderRadius: "5px",
+              border: "1px solid #ccc",
+              boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+              outline: "none",
+              fontFamily: "Comic Sans MS",
+              marginRight: "15px",
+              fontSize: "13px",
+              minWidth: "200px", // Adjust the width as needed
+            }}
+          >
+            <option value="">Select Room</option>
+            {isLoadingMeters ? (
+              <option value="" disabled>Loading Rooms...</option>
+            ) : (
+              meters.map(meter => (
+                <option key={meter.room_no} value={meter.room_no}>
+                  {meter.room_no}
+                </option>
+              ))
+            )}
+          </select>
+        </div>
       
-      <div style={{  display: "flex", alignItems: "center", marginRight: "10px",backgroundColor: "rgb(200 96 224 / 79%)",padding: "5px", borderRadius: "10px"}}>
+      <div style={{ width:"10vw", alignItems: "center", marginRight: "10px",backgroundColor: "rgb(200 96 224 / 79%)",padding: "5px", borderRadius: "10px"}}>
 <label htmlFor="datePicker" style={{ marginRight: "10px", fontWeight: "bold",color:"#003c96" }}>
   <span style={{ fontFamily: "Comic Sans MS",color:"#ffffff" }}>Start Date:</span> 
 </label>
@@ -265,7 +297,7 @@ const Billing_report = () => {
     }}
   />
 </div>
-<div style={{  display: "flex", alignItems: "center", marginRight: "10px",backgroundColor: "rgb(200 96 224 / 79%)",padding: "5px", borderRadius: "10px"}}>
+<div style={{  width:"10vw",alignItems: "center", marginRight: "10px",backgroundColor: "rgb(200 96 224 / 79%)",padding: "5px", borderRadius: "10px"}}>
 <label htmlFor="datePicker" style={{ marginRight: "10px", fontWeight: "bold",color:"#003c96" }}>
   <span style={{ fontFamily: "Comic Sans MS",color:"#ffffff" }}>End Date:</span> 
 </label>
@@ -286,7 +318,7 @@ const Billing_report = () => {
     }}
   />
 </div>
-<div style={{ display: "flex", alignItems: "center",width:"10vw", marginRight: "10px",backgroundColor: "rgb(200 96 224 / 79%)",padding: "5px", borderRadius: "10px" }}>
+<div style={{ alignItems: "center",width:"6vw", marginRight: "10px",backgroundColor: "rgb(200 96 224 / 79%)",padding: "5px", borderRadius: "10px" }}>
       <label htmlFor="datePicker" style={{ marginRight: "10px", fontWeight: "bold" }}>
   <span style={{ fontFamily: "Comic Sans MS",color:"#ffffff" }}>Rate:</span> 
 </label>

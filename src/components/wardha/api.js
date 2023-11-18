@@ -52,6 +52,16 @@ export const fetchMeters = async (host) => {
   }
 };
 
+export const fetchRooms = async (room) => {
+  try {
+    const response = await fetch(`${BASE_URL}/room?room_no=${room}`);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw new Error("Failed to fetch meters");
+  }
+};
+
 export const home = async () => {
   try {
     const response = await fetch(`${BASE_URL}/iframe`);
@@ -107,7 +117,22 @@ export const fetch_billing_Report = async (selectedHost, selectedYear,selectedMo
 };
 
 
-export const fetch_billing_Report_monthly = async (selectedHost, selectedYear,selectedMonth,selectedRate,selectedCA) => {
+export const fetch_billing_Report_monthly = async (selectedHost,selectedDevice, selectedYear,selectedMonth,selectedRate,selectedCA) => {
+
+  // const formattedDate = selectedDate.split("-").reverse().join("-");
+  const apiUrl = `${BASE_URL}/billing-report-monthly/${selectedHost}/${selectedDevice}/${selectedYear}/${selectedMonth}/${selectedRate}/${selectedCA}`;
+
+  try {
+    const response = await fetch(apiUrl);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    throw error;
+  }
+};
+
+export const monthly_Consumption = async (selectedHost, selectedYear,selectedMonth,selectedRate,selectedCA) => {
 
   // const formattedDate = selectedDate.split("-").reverse().join("-");
   const apiUrl = `${BASE_URL}/billing-report-monthly/${selectedHost}/${selectedYear}/${selectedMonth}/${selectedRate}/${selectedCA}`;
