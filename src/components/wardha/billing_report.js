@@ -28,7 +28,7 @@ const Billing_report = () => {
   const [HostName, setHostName] = useState("");
   const [selectedYear, setSelectedYear] = useState(0); // Initialize with an appropriate default value
   const [selectedMonth, setSelectedMonth] = useState(0); // Initialize with an appropriate default value
-  const [selectedRate, setSelectedRate] = useState(""); // Initialize with an appropriate default value
+  const [selectedRate, setSelectedRate] = useState("14"); // Initialize with an appropriate default value
   const [selectedMeter, setSelectedMeter] = useState('');
   const [meters, setMeters] = useState([]);
   const [isLoadingHosts, setIsLoadingHosts] = useState(false);

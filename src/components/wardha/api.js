@@ -132,6 +132,21 @@ export const fetch_billing_Report_monthly = async (selectedHost,selectedDevice, 
   }
 };
 
+export const monthly_bill = async (selectedHost,selectedDevice, selectedYear,selectedMonth,selectedRate,selectedCA) => {
+
+  // const formattedDate = selectedDate.split("-").reverse().join("-");
+  const apiUrl = `${BASE_URL}/monthly-bill/${selectedHost}/${selectedDevice}/${selectedMonth}/${selectedYear}/${selectedRate}/${selectedCA}`;
+
+  try {
+    const response = await fetch(apiUrl);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    throw error;
+  }
+};
+
 export const monthly_Consumption = async (selectedHost, selectedYear,selectedMonth,selectedRate,selectedCA) => {
 
   // const formattedDate = selectedDate.split("-").reverse().join("-");

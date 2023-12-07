@@ -48,8 +48,9 @@
 .icon-container {
   margin-top: 0.5vh;
   display: flex;
+  position: relative;
   align-items: center;
-  padding: 8px;
+  padding: 4px;
   border-radius: 2vh;
   cursor: pointer;
 }
@@ -64,6 +65,7 @@
   background-color: transparent;
   padding: 1vw;
   border-radius: 3vw;
+  font-size:medium;
 }
 
 .icon-container.active {
@@ -93,10 +95,11 @@
 
 .top-bar {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   align-items: center;
   background-color: transparent;
   padding: 10px;
+  margin-left: 20vw;
 }
 
 .logo-right {
@@ -126,4 +129,34 @@
   width: 10vw;
   border-radius: 2vh;
   /* margin-bottom: 3vh; */
+}
+.icon-container::before {
+  content: attr(data-tooltip); /* Set the content of the tooltip to the value of the data-tooltip attribute */
+  position: absolute;
+  bottom: 50%; /* Align the tooltip vertically centered with the icon */
+  left: 110%; /* Position the tooltip to the right of the icon */
+  background-color: rgb(46, 49, 50);
+  color: #f2f0f0;
+  padding: 8px;
+  border-radius: 5px;
+  font-size: 12px;
+  opacity: 0; /* Hide the tooltip by default */
+  transition: opacity 0.3s ease; /* Add a transition effect for smoother visibility */
+  pointer-events: none; /* Make the tooltip unclickable */
+  width: 100%;
+  z-index: 100;
+}
+
+.icon-container:hover::before {
+  opacity: 1; /* Show the tooltip on hover */
+}
+
+.weather{
+  display: flex;
+  flex-direction: column;
+}
+
+.weather p {
+  font-family: Comic Sans MS;
+  margin: 0;
 }

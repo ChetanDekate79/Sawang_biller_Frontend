@@ -86,6 +86,7 @@ const Bar_graph = () => {
     }, [selectedHost,selectedDevice, selectedDate]);
 
 
+
   useEffect(() => {
     // Convert date strings to Date objects and update the dt_time field to hh:mm format
     const chartDataWithTime = chartData.map((dataPoint) => ({
@@ -135,57 +136,63 @@ const Bar_graph = () => {
     valueAxis2.renderer.grid.template.location = 0;
     valueAxis2.renderer.opposite = true;
 
-    // Create series for "value" column
-    const series = chart.series.push(new am4charts.ColumnSeries());
-    series.dataFields.valueY = "value2";
-    series.dataFields.categoryX = "dt_time";
-    series.strokeWidth = 2;
-    series.minBulletDistance = 10;
-    series.tooltipText = "{value2}";
-    series.name = "WH 1";
-    series.fill = am4core.color("#2472de");
-    series.stroke = am4core.color("#2472de");
+    if (selectedDevice == 31 ){
+      const series3 = chart.series.push(new am4charts.ColumnSeries());
+      series3.dataFields.valueY = "value0";
+      series3.dataFields.categoryX = "dt_time";
+      series3.strokeWidth = 2;
+      series3.minBulletDistance = 10;
+      series3.tooltipText = "{value0}";
+      series3.name = "WH R";
+      series3.fill = am4core.color("#008FFB");
+      series3.stroke = am4core.color("#008FFB");
+  
+      const series4 = chart.series.push(new am4charts.ColumnSeries());
+      series4.dataFields.valueY = "value1";
+      series4.dataFields.categoryX = "dt_time";
+      series4.strokeWidth = 2;
+      series4.minBulletDistance = 10;
+      series4.tooltipText = "{value1}";
+      series4.fontFamily = "Comic Sans MS";
+      series4.name = "WH D";
+      series4.fill = am4core.color("#ffc107");
+      series4.stroke = am4core.color("#ffc107");
+    } else{
+// Create series for "value" column
+const series = chart.series.push(new am4charts.ColumnSeries());
+series.dataFields.valueY = "value2";
+series.dataFields.categoryX = "dt_time";
+series.strokeWidth = 2;
+series.minBulletDistance = 10;
+series.tooltipText = "{value2}";
+series.name = "WH 1";
+series.fill = am4core.color("#2472de");
+series.stroke = am4core.color("#2472de");
 
-    const series1 = chart.series.push(new am4charts.ColumnSeries());
-    series1.dataFields.valueY = "value3";
-    series1.dataFields.categoryX = "dt_time";
-    series1.strokeWidth = 2;
-    series1.minBulletDistance = 10;
-    series1.tooltipText = "{value3}";
-    series1.name = "WH 2";
-    series1.fill = am4core.color("#64f7ba");
-    series1.stroke = am4core.color("#64f7ba");
+const series1 = chart.series.push(new am4charts.ColumnSeries());
+series1.dataFields.valueY = "value3";
+series1.dataFields.categoryX = "dt_time";
+series1.strokeWidth = 2;
+series1.minBulletDistance = 10;
+series1.tooltipText = "{value3}";
+series1.name = "WH 2";
+series1.fill = am4core.color("#64f7ba");
+series1.stroke = am4core.color("#64f7ba");
 
-    const series2 = chart.series.push(new am4charts.ColumnSeries());
-    series2.dataFields.valueY = "value4";
-    series2.dataFields.categoryX = "dt_time";
-    series2.strokeWidth = 2;
-    series2.minBulletDistance = 10;
-    series2.tooltipText = "{value4}";
-    series2.name = "WH 3";
-    series2.fill = am4core.color("#ef4040");
-    series2.stroke = am4core.color("#ef4040");
+const series2 = chart.series.push(new am4charts.ColumnSeries());
+series2.dataFields.valueY = "value4";
+series2.dataFields.categoryX = "dt_time";
+series2.strokeWidth = 2;
+series2.minBulletDistance = 10;
+series2.tooltipText = "{value4}";
+series2.name = "WH 3";
+series2.fill = am4core.color("#ef4040");
+series2.stroke = am4core.color("#ef4040");
 
-    // const series3 = chart.series.push(new am4charts.ColumnSeries());
-    // series3.dataFields.valueY = "value3";
-    // series3.dataFields.categoryX = "dt_time";
-    // series3.strokeWidth = 2;
-    // series3.minBulletDistance = 10;
-    // series3.tooltipText = "{value3}";
-    // series3.name = "WH 2";
-    // series3.fill = am4core.color("#ffc107");
-    // series3.stroke = am4core.color("#ffc107");
+    }
 
-    // const series4 = chart.series.push(new am4charts.ColumnSeries());
-    // series4.dataFields.valueY = "value4";
-    // series4.dataFields.categoryX = "dt_time";
-    // series4.strokeWidth = 2;
-    // series4.minBulletDistance = 10;
-    // series4.tooltipText = "{value4}";
-    // series4.fontFamily = "Comic Sans MS";
-    // series4.name = "WH 3";
-    // series4.fill = am4core.color("#008FFB");
-    // series4.stroke = am4core.color("#008FFB");
+    
+ 
 
     // Add legend
     chart.legend = new am4charts.Legend();
@@ -351,7 +358,7 @@ const Bar_graph = () => {
         <div className="loading">Loading...</div>
       ) : (
         <div id="chartdiv" style={{ width: "100%", // Set the chart width to 100% of its container
-        height: "75vh",
+        height: "73vh",
         backgroundColor: "#ffffff",
         borderRadius: "10px"}} />
       )}

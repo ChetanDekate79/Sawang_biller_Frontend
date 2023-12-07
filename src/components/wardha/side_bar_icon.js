@@ -23,16 +23,42 @@ import Billing_report_monthly from "./billing_report_monthly";
 import Bill from "./bill";
 import Admin from "./admin";
 import Monthly_Consumption_Report from "./monthly_consumption_report";
+import Monthly_bill from "./Monthly_bill";
+import axios from 'axios';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import BASE_URL from "./api";
+
 const Sidebar_wardha_icon = (props) => {
   const { userType } = props;
+  const [weatherData, setWeatherData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("graph");
   const [showIconNames, setShowIconNames] = useState(true); // State variable to control visibility
-
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleOpenLink = () => {
     window.open("https://sawangibillernewstudent.hetadatain.com", "_blank"); // Replace with your desired link
   };
+
+  useEffect(() => {
+    const getWeatherData = async () => {
+      try {
+        setLoading(true);
+        const response = await axios.get(
+          `${BASE_URL}/weather/current`
+        );
+        setWeatherData(response.data);
+      } catch (error) {
+        console.error('Error fetching weather data:', error);
+        setError(error.message || 'An error occurred while fetching weather data.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    getWeatherData();
+  }, []); // The 
 
   const handleLogout = () => {
     // Perform any logout logic if necessary
@@ -42,7 +68,6 @@ const Sidebar_wardha_icon = (props) => {
   };
 
   const getCurrentDateTime = () => {
-   
     const currentDate = new Date();
     const day = String(currentDate.getDate()).padStart(2, "0");
     const month = String(currentDate.getMonth() + 1).padStart(2, "0");
@@ -88,7 +113,7 @@ const Sidebar_wardha_icon = (props) => {
       case 'billing_report':
         return <Billing_report/>;
       case 'billing_report_monthly':
-        return <Billing_report_monthly/>;
+        return <Monthly_bill/>;
       case 'bill':
         return <Bill/>;
       case 'admin':
@@ -106,55 +131,55 @@ const Sidebar_wardha_icon = (props) => {
  const iconContainers = [
    {
      tabName: "graph",
-     tabTitle: "Hourly Graph",
+     tabTitle: "Any Room Hourly Consumption for any day",
      icon: <img src={`${process.env.PUBLIC_URL}/icons/statistics.png`} alt="Hostel Icon" width={24} />,
      iconName: "Hourly Graph",
    },
    {
      tabName: "hostel_graph",
-     tabTitle: "Hostel Graph",
+     tabTitle: "Select any Hostel Input,Commom Area,Hourly Graphs for any Day",
      icon: <img src={`${process.env.PUBLIC_URL}/icons/hostel.png`} alt="Hostel Icon" width={24} />,
      iconName: "Hostel Graph",
    },
    {
     tabName: "hostel_report",
-    tabTitle: "Hostel Report",
+    tabTitle: "Show any Hostel Hourly Input,Room,Common Area table",
     icon: <img src={`${process.env.PUBLIC_URL}/icons/report.png`} alt="Hostel Icon" width={24} />,
     iconName: "Hostel Report",
   },
   {
     tabName: "hostel_report_excel",
-    tabTitle: " Daily Hostel Report",
+    tabTitle: "Download all Hostel Daily Consumption",
     icon: <img src={`${process.env.PUBLIC_URL}/icons/download.png`} alt="Hostel Icon" width={24} /> ,
     iconName: " Daily Hostel Report",
   },  
   {
     tabName: "Monthly_consumption_report",
-    tabTitle: " Monthly Report",
+    tabTitle: "Show any Hostel Total Consumption,Solar Gen, Main Incomer Net,Room Consumption,Common Area Consumption,Room Bill,Common Area Bill for any Month",
     icon: <img src={`${process.env.PUBLIC_URL}/icons/report.png`} alt="Hostel Icon" width={24} /> ,
     iconName: " Monthly Report",
   },  
    {
      tabName: "graph_csv",
-     tabTitle: "Individual Parameter",
+     tabTitle: "Show Twenty-five Parameter of any Room for any Day",
      icon: <img src={`${process.env.PUBLIC_URL}/icons/line-chart.png`} alt="Hostel Icon" width={24} />,
      iconName: "Individual Parameter",
    },
    {
      tabName: "meter_status2",
-     tabTitle: "Meter Status",
+     tabTitle: "For any Hostel Meter Status",
      icon: <img src={`${process.env.PUBLIC_URL}/icons/electric-meter.png`} alt="Hostel Icon" width={24} />,
      iconName: "Meter Status",
    },
    {
     tabName: "billing_report", 
-    tabTitle: "Billing Report",
+    tabTitle: "Generate bill for any Room from Start to End in given time period",
     icon: <img src={`${process.env.PUBLIC_URL}/icons/bill.png`} alt="Hostel Icon" width={24} />,
     iconName: "Billing Report",
   },
   {
     tabName: "billing_report_monthly",
-    tabTitle: "Billing Report Monthly",
+    tabTitle: "Generate Summary bill for any Room from Start to End in given time period",
     icon: <img src={`${process.env.PUBLIC_URL}/icons/monthly-bill.png`} alt="Hostel Icon" width={24} />,
     iconName: "Billing Report Monthly",
   },
@@ -164,12 +189,7 @@ const Sidebar_wardha_icon = (props) => {
     icon: <img src={`${process.env.PUBLIC_URL}/icons/settings.png`} alt="Hostel Icon" width={24} />,
     iconName: "Admin Tools",
   },
-  // {
-  //   tabName: "bill",
-  //   tabTitle: "Bill",
-  //   icon: <img src={`${process.env.PUBLIC_URL}/icons/monthly-bill.png`} alt="Hostel Icon" width={24} />,
-  //   iconName: "Bill",
-  // }
+
    
    
  ].filter(Boolean);;
@@ -179,101 +199,10 @@ const Sidebar_wardha_icon = (props) => {
       <div className="icons-container">
       {showIconNames && (
           <div className="box">
-            <img src="log.png" alt="Left Image" className="logo-left" />
+            <img src="log.png" alt="Left Image"  width='150' height='30'/>
           </div>
         )}
-    
-        {/* <div
-          className={`icon-container ${activeTab === "home" ? "active" : ""}`}
-          onClick={() => setActiveTab("home")}
-          title="Home"
-        >
-          <FaHome size={24} />
-          <span className="icon-name">Home</span>
-        </div> */}
-        {/* <div
-          className={`icon-container ${activeTab === "graph" ? "active" : ""}`}
-          onClick={() => setActiveTab("graph")}
-          title="Hourly Graph"
-        >
-          <FaChartBar size={24} />
-          <span className="icon-name">Hourly Graph</span>
-        </div>
-        <div
-          className={`icon-container ${activeTab === "hostel_graph" ? "active" : ""}`}
-          onClick={() => setActiveTab("hostel_graph")}
-          title="Hostel Graph"
-        >
-          <FaChartBar size={24} />
-          <span className="icon-name">Hostel Graph</span>
-        </div>
-        <div
-          className={`icon-container ${activeTab === "graph_csv" ? "active" : ""}`}
-          onClick={() => setActiveTab("graph_csv")}
-          title="Individual Parameter"
-        >
-          <FaFileCsv size={24} />
-          <span className="icon-name">Parameter Graph</span>
-        </div> */}
-        {/* <div
-          className={`icon-container ${activeTab === "meter_status" ? "active" : ""}`}
-          onClick={() => setActiveTab("meter_status")}
-          title="Hourly Report"
-        >
-          <FaFileAlt size={24} />
-          <span className="icon-name">Meter Status</span>
-        </div> */}
-
-{/* <div
-          className={`icon-container ${activeTab === "meter_status2" ? "active" : ""}`}
-          onClick={() => setActiveTab("meter_status2")}
-          title="Hourly Report"
-        >
-          <FaFileAlt size={24} />
-          <span className="icon-name">Meter Status</span>
-        </div>
-        <div
-          className="icon-container"
-          onClick={handleOpenLink}
-          title="Open Link in New Tab"
-        >
-          <FaExternalLinkAlt size={24} />
-          <span className="icon-name">Student Record</span>
-        </div> */}
-      
-        {/* <div
-          className={`icon-container ${activeTab === "solar" ? "active" : ""}`}
-          onClick={() => setActiveTab("solar")}
-          title="Solar Report"
-        >
-          <FaSun size={24} />
-          <span className="icon-name">Solar Report</span>
-        </div> */}
-        {/* <div
-          className={`icon-container ${activeTab === "report" ? "active" : ""}`}
-          onClick={() => setActiveTab("report")}
-          title="Total Consumption Report"
-        >
-          <IoMdDocument size={24} />
-          <span className="icon-name">Energy Report</span>
-        </div> */}
-
-        {/* <div
-          className={`icon-container ${activeTab === "pump" ? "active" : ""}`}
-          onClick={() => setActiveTab("pump")}
-          title="Pump Status"
-        >
-          <FaWater size={24} />
-          <span className="icon-name">Pump Status</span>
-        </div>
-        <div
-          className={`icon-container ${activeTab === "pump_report" ? "active" : ""}`}
-          onClick={() => setActiveTab("pump_report")}
-          title="Pump Report"
-        >
-          <IoMdDocument size={24} />
-          <span className="icon-name">Pump Report</span>
-        </div> */}
+   
         <div
           className="toggle-icon-name"
           onClick={() => setShowIconNames(!showIconNames)}
@@ -288,7 +217,8 @@ const Sidebar_wardha_icon = (props) => {
               activeTab === iconContainer.tabName ? "active" : ""
             }`}
             onClick={() => setActiveTab(iconContainer.tabName)}
-            title={iconContainer.tabTitle}
+            // title={iconContainer.tabTitle}
+            data-tooltip={iconContainer.tabTitle} 
           >
             <>
               {iconContainer.icon}
@@ -304,7 +234,7 @@ const Sidebar_wardha_icon = (props) => {
             activeTab === "handleOpenLink" ? "active" : ""
           }`}
           onClick={handleOpenLink}
-          title="Student Record"
+          data-tooltip="Enter or Update data of any Student"
         >
           <img src={`${process.env.PUBLIC_URL}/icons/forwarding.png`} alt="Hostel Icon" width={24} />
           {showIconNames && <span className="icon-name">Student Record</span>}
@@ -314,39 +244,43 @@ const Sidebar_wardha_icon = (props) => {
             activeTab === "logout" ? "active" : ""
           }`}
           onClick={handleLogout}
-          title="Logout"
+          data-tooltip ="Logout"
         >
           <img src={`${process.env.PUBLIC_URL}/icons/logout.png`} alt="Hostel Icon" width={24} />
           {showIconNames && <span className="icon-name">Logout</span>}
         </div>
-
-
-        {/* <div className="log">
-          <div className="icon-container" onClick={handleLogout} title="Logout">
-            <FaSignOutAlt size={24} />
-            <span className="icon-name">Logout</span>
-          </div>
-        </div> */}
       </div>
 
       <div className="content">
         <div className="top-bar">
-          <span className="top-title" style={{ fontFamily: 'Comic Sans MS' }}>Hostel Room Billing for <b style={{ color: "#dc2e2e"}}>Sawangi Campus</b></span>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
+        <h4  style={{ fontFamily: 'Comic Sans MS' }}>Energy Monitoring System for <b style={{ color: "#dc2e2e"}}>Sawangi Campus</b></h4>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
           <div
             style={{
-              // backgroundColor: 'rgba(255, 255, 255, 0.5)', // Transparent white background
-              borderRadius: '4px', // Rounded corners for the box
-              padding: '5px', // Add some padding to the box
+              borderRadius: '4px',
+              padding: '5px',
             }}
           >
-            <span style={{ fontSize: '1vw', color: 'black', cursor: 'pointer' }}>
-              🗓️ {getCurrentDateTime()}
-            </span>
+          
+            
+            {error && <p style={{ color: 'red' }}>{error}</p>}
+
+{weatherData && (
+  <div className="weather">
+  <p>
+    🗓️ {getCurrentDateTime()}
+  </p>
+  <p>
+    <img src={weatherData.current.condition.icon} alt="Weather Icon" width="30" height="30"></img>Temp: <b>{weatherData.current.temp_c}°C</b>  <b>{weatherData.current.condition.text}</b>, Hum: <b>{weatherData.current.humidity}</b>, UV: <b>{weatherData.current.uv}</b>
+  </p>
+</div>
+
+)}
+            
           </div>
         </div>
           
-          <img src="JNMC_LOGO.png" alt="Right Image" className="logo-right"/>
+          <img src="JNMC_LOGO.png" alt="Right Image" width="50" height="50"/>
         </div>
         {isLoading ? (
           <div className="loading-bar">
