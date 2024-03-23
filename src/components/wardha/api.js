@@ -6,6 +6,9 @@ import bcrypt from 'bcryptjs';
 
 const BASE_URL = "https://sawangibiller.hetadatain.com/api"; // Replace with your API base URL
 
+// const BASE_URL = "https://sawangiall.hetadatain.com/api"; // Replace with your API base URL
+
+
 export default BASE_URL;
 
 
@@ -89,7 +92,9 @@ export const pump = async (date) => {
 export const fetch_hostel_Report = async (selectedHost, selectedDate) => {
 
   const formattedDate = selectedDate.split("-").reverse().join("-");
-  const apiUrl = `${BASE_URL}/hostel_consumption_report?client_id=${selectedHost}&date=${selectedDate}`;
+  // const apiUrl = `${BASE_URL}/hostel_consumption_report?client_id=${selectedHost}&date=${selectedDate}`;
+  
+  const apiUrl = `${BASE_URL}/hostel_report?client_id=${selectedHost}&date=${selectedDate}`;
 
   try {
     const response = await fetch(apiUrl);
@@ -179,7 +184,8 @@ export const fetchData_bar = async (hostId, deviceId, date) => {
 export const hostel_graph = async (hostId, date) => {
   try {
     const response = await fetch(
-      `${BASE_URL}/hostel_consumption?client_id=${hostId}&date=${date}`
+      // `${BASE_URL}/hostel_consumption?client_id=${hostId}&date=${date}`
+      `${BASE_URL}/hos-ca/${date}/${hostId}`
     );
     const data = await response.json();
     return data;
@@ -192,6 +198,18 @@ export const Generate_Hourly_data_all = async (hostId, date) => {
   try {
     const response = await fetch(
       `${BASE_URL}/generate_hourly_data_all/${hostId}/${date}`
+    );
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw new Error("Failed to fetch data");
+  }
+};
+
+export const Generate_hostel_Hourly_data_all = async (start_date, end_date) => {
+  try {
+    const response = await fetch(
+      `${BASE_URL}/hostel-consumption?start_date=${start_date}&end_date=${end_date}`
     );
     const data = await response.json();
     return data;

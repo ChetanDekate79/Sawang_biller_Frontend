@@ -24,9 +24,11 @@ import Bill from "./bill";
 import Admin from "./admin";
 import Monthly_Consumption_Report from "./monthly_consumption_report";
 import Monthly_bill from "./Monthly_bill";
+import Hostel_report_new from "./hostel_report_new";
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import BASE_URL from "./api";
+import Empty_room from "./empty_room_report";
 
 const Sidebar_wardha_icon = (props) => {
   const { userType } = props;
@@ -107,9 +109,11 @@ const Sidebar_wardha_icon = (props) => {
       case "hostel_graph":
         return <Hostel_graph/>;
         case "hostel_report":
-        return <Hostel_report/>;
+        return <Hostel_report_new/>;
       case 'hostel_report_excel':
         return <Hostel_report_excel/>;
+      case 'empty_room_report':
+        return <Empty_room/>
       case 'billing_report':
         return <Billing_report/>;
       case 'billing_report_monthly':
@@ -172,11 +176,18 @@ const Sidebar_wardha_icon = (props) => {
      iconName: "Meter Status",
    },
    {
+    tabName: "empty_room_report",
+    tabTitle: "For any Empty Room Status",
+    icon: <img src={`${process.env.PUBLIC_URL}/icons/emergency.png`} alt="Hostel Icon" width={24} />,
+    iconName: "Empty Rooms",
+  },
+   userType === "admin" && {
     tabName: "billing_report", 
     tabTitle: "Generate bill for any Room from Start to End in given time period",
     icon: <img src={`${process.env.PUBLIC_URL}/icons/bill.png`} alt="Hostel Icon" width={24} />,
     iconName: "Billing Report",
   },
+  userType === "admin" && 
   {
     tabName: "billing_report_monthly",
     tabTitle: "Generate Summary bill for any Room from Start to End in given time period",

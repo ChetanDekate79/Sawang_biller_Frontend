@@ -116,7 +116,7 @@ const Monthly_bill = () => {
     const a = document.createElement('a');
     a.style.display = 'none';
     a.href = url;
-    a.download = `${selectedHost}-${selectedDevice}-${selectedYear}-${selectedMonth}.csv`;
+    a.download = `${selectedHost}-${selectedDevice}-from${selectedDate}-to-${selectedDate2}.csv`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -192,8 +192,8 @@ const Monthly_bill = () => {
     setIsLoading(true);
   
     // Check if all required parameters are available
-    if (selectedHost && selectedDevice && selectedDate &&  selectedRate && selectedCA) {
-      fetch(`${BASE_URL}/monthly-bill-new/${selectedHost}/${selectedDevice}/${selectedMonth}/${selectedYear}/${selectedRate}/${selectedCA}`)
+    if (selectedHost && selectedDevice && selectedDate && selectedDate2 && selectedRate && selectedCA) {
+      fetch(`${BASE_URL}/monthly-bill-new2/${selectedHost}/${selectedDevice}/${selectedDate}/${selectedDate2}/${selectedRate}/${selectedCA}`)
         .then((response) => response.json())
         .then((data) => {
           setData(data);
@@ -207,7 +207,7 @@ const Monthly_bill = () => {
       // If any required parameter is missing, set isLoading to false to stop loading
       setIsLoading(false);
     }
-  }, [selectedDevice, selectedDate, selectedHost, selectedRate, selectedCA,  selectedYear]);
+  }, [selectedDevice, selectedDate, selectedHost, selectedRate, selectedCA, selectedDate2, selectedYear]);
   
 
 
@@ -292,7 +292,7 @@ const Monthly_bill = () => {
 </label>
 
   <input
-    type="month"
+    type="date"
     id="datePicker"
     value={selectedDate}    
     onChange={handleDateChange}

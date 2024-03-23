@@ -88,7 +88,7 @@ const sortByTime = (data) => {
             sum_ryb: dataPoint.sum_ryb,
             sum_total: dataPoint.sum_total,
             common_area: dataPoint.common_area,
-            hour: dataPoint.HOUR,
+            hour: dataPoint.hours,
           }));
     
           const sortedChartData = sortByTime(chartDataWithTime); // Sort the data by dt_time
@@ -105,7 +105,6 @@ const sortByTime = (data) => {
     
 
     useEffect(() => {
-      if (!isLoadingData && chartData.length > 0) { // Check if chartData has been loaded
         const chart = am4core.create("chartdiv", am4charts.XYChart);
   
         chart.data = chartData;
@@ -113,7 +112,7 @@ const sortByTime = (data) => {
     // Create X axis
     const categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
     // Configure category axis
-    categoryAxis.dataFields.category = "dt_time";
+    categoryAxis.dataFields.category = "hour";
     categoryAxis.renderer.minGridDistance = 30;
     categoryAxis.renderer.labels.template.horizontalCenter = "right";
     categoryAxis.renderer.labels.template.verticalCenter = "middle";
@@ -132,7 +131,7 @@ const sortByTime = (data) => {
     // Create series for "sum_ryb" column
     const seriesRyb = chart.series.push(new am4charts.ColumnSeries());
     seriesRyb.dataFields.valueY = "sum_ryb";
-    seriesRyb.dataFields.categoryX = "dt_time";
+    seriesRyb.dataFields.categoryX = "hour";;
     // seriesRyb.strokeWidth = 2;
     seriesRyb.minBulletDistance = 10;
     seriesRyb.tooltipText = "Room Kwh: {sum_ryb}";
@@ -144,7 +143,7 @@ const sortByTime = (data) => {
     // Create series for "common_area" column
     const seriesCommon = chart.series.push(new am4charts.ColumnSeries());
     seriesCommon.dataFields.valueY = "common_area";
-    seriesCommon.dataFields.categoryX = "dt_time";
+    seriesCommon.dataFields.categoryX = "hour";;
     seriesCommon.strokeWidth = 2;
     seriesCommon.minBulletDistance = 10;
     seriesCommon.tooltipText = "Common Area: {common_area}";
@@ -157,7 +156,7 @@ const sortByTime = (data) => {
  // Create series for "sum_total" column
     const seriesTotal = chart.series.push(new am4charts.ColumnSeries());
     seriesTotal.dataFields.valueY = "sum_total";
-    seriesTotal.dataFields.categoryX = "dt_time";
+    seriesTotal.dataFields.categoryX = "hour";;
     seriesTotal.strokeWidth = 2;
     seriesTotal.minBulletDistance = 10;
     seriesTotal.tooltipText = "Net Kwh: {sum_total}";
@@ -190,8 +189,8 @@ const sortByTime = (data) => {
     return () => {
       chart.dispose();
     };
-  }
-}, [chartData, isLoadingData, selectedDate, selectedHostName, SelectedDeviceName2]);
+  
+}, [chartData,  selectedDate, selectedHostName, SelectedDeviceName2]);
 
 
   const handleHostChange = (event) => {

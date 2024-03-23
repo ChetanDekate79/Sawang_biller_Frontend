@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { fetchHosts, Generate_Hourly_data_all } from "./api";
+import { fetchHosts, Generate_Hourly_data_all,Generate_hostel_Hourly_data_all } from "./api";
 
 
 
@@ -10,6 +10,8 @@ const Admin = () => {
   const [selectedHostName, setSelectedHostName] = useState("");
   const [selectedHost, setSelectedHost] = useState("");
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().slice(0, 10));
+  const [selectedDate_start, setselectedDate_start] = useState(new Date().toISOString().slice(0, 10));
+  const [selectedDate_end, setselectedDate_end] = useState(new Date().toISOString().slice(0, 10));
   const [isLoadingData, setIsLoadingData] = useState(true);
   const [loadingProgress, setLoadingProgress] = useState(0); // New state variable for loading progress
 
@@ -63,6 +65,26 @@ const Admin = () => {
   }, [selectedHost, selectedDate]);
 
   useEffect(() => {
+    setIsLoadingData(true);
+    setLoadingProgress(0);
+
+    // Format the date in "dd-mm-yyyy" format
+    const start_date = formatDateToDDMMYYYY(selectedDate_start);
+    const end_date = formatDateToDDMMYYYY(selectedDate_end);
+
+
+  Generate_hostel_Hourly_data_all(start_date, end_date)
+  .then((data) => {
+    // ... (rest of the code)
+    setIsLoadingData(false);
+  })
+  .catch((error) => {
+    console.error("Error fetching data:", error);
+    setIsLoadingData(false);
+  });
+}, [selectedDate_start,selectedDate_end]);
+
+  useEffect(() => {
     const fetchInitialData = async () => {
       try {
         setIsLoadingHosts(true);
@@ -81,10 +103,18 @@ const Admin = () => {
   const handleDateChange = (event) => {
     setSelectedDate(event.target.value);
   };
+  const handleDateChange2 = (event) => {
+    setselectedDate_start(event.target.value);
+  };
+  const handleDateChange3 = (event) => {
+    setselectedDate_end(event.target.value);
+  };
 
   return (
-    <div className="container-fluid m-2 d-flex justify-content-around" >
-      <div>
+    <div >
+          <div className="container-fluid  d-flex justify-content-center rounded" >
+
+      <div className="container m-2  border border-dark p-3 rounded" style={{backgroundColor: '#d1fec5'}}>
         <h4>Update Hourly Data from CSV Files</h4>
       <div className="container-fluid d-flex">
         <div style={{ display: "flex", alignItems: "center", marginRight: "10px", backgroundColor: "rgb(156 152 255)", padding: "5px", borderRadius: "10px" }}>
@@ -143,11 +173,64 @@ const Admin = () => {
       {isLoadingData && <LoadingSpinner />}
       </div>
       </div>
-      <div className="bg-white p-4 my-10 d-inline-block">
+
+      <div className="container  m-2   border border-dark p-3  rounded" style={{backgroundColor: '#d1fec5'}}>
+        <h4>Fill Hostel Hourly Data</h4>
+        <span style={{color: "#FF0000"}}>Selected days difference must be less than 5 days</span>
+      <div className="container-fluid d-flex">
+      <div style={{ display: "flex", alignItems: "center", marginRight: "10px", backgroundColor: "rgb(200 96 224 / 79%)", padding: "5px", borderRadius: "10px" }}>
+          <label htmlFor="datePicker" style={{ marginRight: "10px", fontWeight: "bold", color: "#003c96" }}>
+            <span style={{ fontFamily: "Comic Sans MS", color: "#ffffff" }}>Start Date:</span>
+          </label>
+          <input
+            type="date"
+            id="datePicker"
+            value={selectedDate_start}
+            onChange={handleDateChange2}
+            style={{
+              padding: "5px",
+              borderRadius: "5px",
+              border: "1px solid #ccc",
+              boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+              outline: "none",
+              fontFamily: "Comic Sans MS",
+              fontSize: "14px",
+            }}
+          />
+        </div>
+        <div style={{ display: "flex", alignItems: "center", marginRight: "10px", backgroundColor: "rgb(200 96 224 / 79%)", padding: "5px", borderRadius: "10px" }}>
+          <label htmlFor="datePicker" style={{ marginRight: "10px", fontWeight: "bold", color: "#003c96" }}>
+            <span style={{ fontFamily: "Comic Sans MS", color: "#ffffff" }}>End Date:</span>
+          </label>
+          <input
+            type="date"
+            id="datePicker"
+            value={selectedDate_end}
+            onChange={handleDateChange3}
+            style={{
+              padding: "5px",
+              borderRadius: "5px",
+              border: "1px solid #ccc",
+              boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+              outline: "none",
+              fontFamily: "Comic Sans MS",
+              fontSize: "14px",
+            }}
+          />
+        </div>
+      </div>
+      <div className="container d-flex justify-content-center align-self-center mt-2" >
+      {isLoadingData && <LoadingSpinner />}
+      </div>
+      </div>
+
+
+      <div className=" p-4 m-2 d-inline-block border border-dark rounded" style={{backgroundColor: '#d1fec5'}}>
   <h4 className="text-center">Login Data</h4>
   <button className='btn btn-primary' onClick={handleClick}><h6>Download</h6></button>
 </div>
 
+    </div>
     </div>
   );
 }

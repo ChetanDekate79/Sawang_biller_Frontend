@@ -15,7 +15,7 @@ import { createPortal } from 'react-dom';
 
 am4core.useTheme(am4themes_animated);
 
-const Monthly_bill = () => {
+const Empty_room = () => {
   const [chartData, setChartData] = useState([]);
   const [selectedHost, setSelectedHost] = useState("");
   const [selectedDevice, setSelectedDevice] = useState("");
@@ -70,7 +70,7 @@ const Monthly_bill = () => {
       pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
   
       // Save the PDF with a dynamic filename
-      pdf.save(`${selectedHost}-${selectedDevice}-${selectedYear}-${selectedMonth}.pdf`);
+      pdf.save(`Empty Rooms - ${selectedHost} from ${selectedDate} to ${selectedDate2}.pdf`);
     });
   };
   
@@ -116,7 +116,7 @@ const Monthly_bill = () => {
     const a = document.createElement('a');
     a.style.display = 'none';
     a.href = url;
-    a.download = `${selectedHost}-${selectedDevice}-${selectedYear}-${selectedMonth}.csv`;
+    a.download = `Empty Rooms - ${selectedHost} from ${selectedDate} to ${selectedDate2}.csv`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -124,7 +124,6 @@ const Monthly_bill = () => {
   };
   
 
-  
 
 
   const [isLoading, setIsLoading] = useState(true); // New state variable for loading status
@@ -192,8 +191,8 @@ const Monthly_bill = () => {
     setIsLoading(true);
   
     // Check if all required parameters are available
-    if (selectedHost && selectedDevice && selectedDate &&  selectedRate && selectedCA) {
-      fetch(`${BASE_URL}/monthly-bill-new/${selectedHost}/${selectedDevice}/${selectedMonth}/${selectedYear}/${selectedRate}/${selectedCA}`)
+    if (selectedHost && selectedDate && selectedDate2 ) {
+      fetch(`${BASE_URL}/empty-room-monthly/${selectedHost}/${selectedDate}/${selectedDate2}`)
         .then((response) => response.json())
         .then((data) => {
           setData(data);
@@ -207,7 +206,7 @@ const Monthly_bill = () => {
       // If any required parameter is missing, set isLoading to false to stop loading
       setIsLoading(false);
     }
-  }, [selectedDevice, selectedDate, selectedHost, selectedRate, selectedCA,  selectedYear]);
+  }, [selectedDevice, selectedDate, selectedHost, selectedRate, selectedCA, selectedDate2, selectedYear]);
   
 
 
@@ -253,46 +252,14 @@ const Monthly_bill = () => {
         
   </select>
       </div>
-      <div style={{ alignItems: "center", marginRight: "10px", backgroundColor: "rgb(97 194 194)", padding: "2px", borderRadius: "10px" }}>
-          <label htmlFor="select_device" style={{ fontWeight: "bold", display: "block" }}>
-            <span style={{ fontFamily: "Comic Sans MS", color: "#ffffff" }}>Room:</span>
-          </label>
-
-          <select
-            id="select_device"
-            value={selectedDevice}
-            onChange={onDeviceChange}
-            style={{
-              padding: "5px",
-              borderRadius: "5px",
-              border: "1px solid #ccc",
-              boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-              outline: "none",
-              fontFamily: "Comic Sans MS",
-              marginRight: "15px",
-              fontSize: "13px",
-              minWidth: "200px", // Adjust the width as needed
-            }}
-          >
-            <option value="">Select Room</option>
-            {isLoadingMeters ? (
-              <option value="" disabled>Loading Rooms...</option>
-            ) : (
-              meters.map(meter => (
-                <option key={meter.room_no} value={meter.room_no}>
-                  {meter.room_no}
-                </option>
-              ))
-            )}
-          </select>
-        </div>
+      
       <div style={{ width:'12vw', alignItems: "center", marginRight: "10px",backgroundColor: "rgb(200 96 224 / 79%)",padding: "5px", borderRadius: "10px"}}>
 <label htmlFor="datePicker" style={{ marginRight: "10px", fontWeight: "bold",color:"#003c96" }}>
-  <span style={{ fontFamily: "Comic Sans MS",color:"#ffffff" }}>Month:</span> 
+  <span style={{ fontFamily: "Comic Sans MS",color:"#ffffff" }}>Start Date:</span> 
 </label>
 
   <input
-    type="month"
+    type="date"
     id="datePicker"
     value={selectedDate}    
     onChange={handleDateChange}
@@ -307,11 +274,9 @@ const Monthly_bill = () => {
     }}
   />
 </div>
-
-
-{/* <div style={{ width:'12vw', alignItems: "center", marginRight: "10px",backgroundColor: "rgb(200 96 224 / 79%)",padding: "5px", borderRadius: "10px"}}>
+<div style={{ width:'12vw', alignItems: "center", marginRight: "10px",backgroundColor: "rgb(200 96 224 / 79%)",padding: "5px", borderRadius: "10px"}}>
 <label htmlFor="datePicker" style={{ marginRight: "10px", fontWeight: "bold",color:"#003c96" }}>
-  <span style={{ fontFamily: "Comic Sans MS",color:"#ffffff" }}>Month:</span> 
+  <span style={{ fontFamily: "Comic Sans MS",color:"#ffffff" }}>End Date:</span> 
 </label>
 
   <input
@@ -329,48 +294,7 @@ const Monthly_bill = () => {
       fontSize: "14px",
     }}
   />
-</div> */}
-
-      <div style={{ width:'10vw', alignItems: "center",width:"10vw", marginRight: "10px",backgroundColor: "rgb(200 96 224 / 79%)",padding: "5px", borderRadius: "10px" }}>
-      <label htmlFor="datePicker" style={{ marginRight: "10px", fontWeight: "bold" }}>
-  <span style={{ fontFamily: "Comic Sans MS",color:"#ffffff" }}>Rate:</span> 
-</label>
-        <input
-          type="number"
-          value={selectedRate}
-          onChange={(e) => setSelectedRate(Number(e.target.value))}
-          style={{
-            padding: "5px",
-            borderRadius: "5px",
-            border: "1px solid #ccc",
-            boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-            outline: "none",
-            fontFamily: "Comic Sans MS",
-            fontSize: "14px",
-            width:"100%",
-          }}
-        />
-      </div>
-      <div style={{ width:'10vw', alignItems: "center",width:"10vw", marginRight: "10px",backgroundColor: "rgb(200 96 224 / 79%)",padding: "5px", borderRadius: "10px" }}>
-      <label htmlFor="datePicker" style={{ marginRight: "10px", fontWeight: "bold" }}>
-  <span style={{ fontFamily: "Comic Sans MS",color:"#ffffff" }}>Common Area:</span> 
-</label>
-        <input
-          type="number"
-          value={selectedCA}
-          onChange={(e) => setSelectedCA(Number(e.target.value))}
-          style={{
-            padding: "5px",
-            borderRadius: "5px",
-            border: "1px solid #ccc",
-            boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-            outline: "none",
-            fontFamily: "Comic Sans MS",
-            fontSize: "14px",
-            width: "100%",
-          }}
-        />
-      </div>
+</div>
 
       </div>
        
@@ -400,35 +324,28 @@ const Monthly_bill = () => {
       </div>
 
       <div className="container-fluid mt-3" style={{fontFamily: "Comic Sans MS"}}>
-        <h2 className="text-center" >{selectedHost} - {selectedDevice} Report for Date {selectedYear}/{selectedMonth} </h2>
+        <h2 className="text-center" >Empty Rooms of {selectedHost} from {selectedDate} to {selectedDate2} </h2>
         {/* <p className="text-center">The .table-bordered class adds borders on all sides of the table and the cells:</p> */}
 
         <table id="print_table" className="table table-bordered">
           <thead class="table-success">
             <tr>
+            <th>Date</th>
               <th>Hostel</th>
               <th>Room No.</th>
-              <th>Student Id</th>
+              
               <th>Total Units</th>
-              <th>Rate</th>
-              <th>Sum</th>
-              <th>Common Area (Rs)</th>
-              <th>Total Days</th>
-              <th>Total Amount</th>
+             
             </tr>
           </thead>
           <tbody>
           {Array.isArray(data) && data.length > 0 && Array.isArray(data[0]) && Object.values(data[0]).map((item, index) => (
   <tr key={index}>
+    <td>{item.date}</td>
     <td>{item.hostel_id}</td>
     <td>{item.room_no}</td>
-    <td>{item.student_id}</td>
-    <td>{item.Units}</td>
-    <td>{item.rate}</td>
-    <td>{item.SUM}</td>
-    <td>{item.common_area}</td>
-    <td>{item.total_days}</td>
-    <td>{item.Total_Amount}</td>
+    <td>{item.units}</td>
+   
   </tr>
 ))}
 
@@ -458,4 +375,4 @@ const Monthly_bill = () => {
   );
 };
 
-export default Monthly_bill;
+export default Empty_room;
